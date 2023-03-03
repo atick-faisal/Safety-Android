@@ -1,11 +1,14 @@
-package dev.atick.safety.ui.intro.page1
+package dev.atick.safety.ui.intro.page2
 
 import android.app.Activity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -24,7 +27,7 @@ import dev.atick.safety.R
 import dev.atick.safety.ui.common.components.LargeButton
 
 @Composable
-fun IntroScreen1(
+fun IntroScreen2(
     onNextClick: () -> Unit,
     onBackClick: (() -> Unit)? = null
 ) {
@@ -37,7 +40,7 @@ fun IntroScreen1(
         val currentWindow = (FragmentComponentManager.findActivity(view.context) as Activity).window
         SideEffect {
             currentWindow?.let { window ->
-                window.statusBarColor = Color(0xFF141414).toArgb()
+                window.statusBarColor = Color(0xFF1E1E1E).toArgb()
                 window.navigationBarColor = Color.White.toArgb()
                 WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
                 WindowCompat.getInsetsController(window, view).isAppearanceLightNavigationBars =
@@ -49,13 +52,13 @@ fun IntroScreen1(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF141414)),
+            .background(Color(0xFF1E1E1E)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.screen_1_header),
+            painter = painterResource(id = R.drawable.intro_page_2_header),
             contentDescription = "icon",
             modifier = Modifier
                 .size(200.dp)
@@ -66,14 +69,14 @@ fun IntroScreen1(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White)
-                .padding(horizontal = 48.dp)
+                .padding(horizontal = 32.dp)
                 .weight(0.5F),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "Connect your bracelet to Safety App using Bluetooth",
+                text = "Using an ESP32, your bracelet will monitor and detect any sudden falls using physics!",
                 fontSize = 24.sp,
                 color = Color.Black,
                 lineHeight = 32.sp
@@ -82,7 +85,7 @@ fun IntroScreen1(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "قم بتوصيل السوار بتطبيق السلامة  باستخدام البلوتوث",
+                text = "باستخدام ESP32 ، ستراقب  السوار وتكتشف أي سقوط مفاجئ باستخدام الفيزياء!",
                 fontSize = 28.sp,
                 color = Color.Black,
                 lineHeight = 36.sp,
@@ -93,8 +96,11 @@ fun IntroScreen1(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back")
+                }
                 LargeButton(
                     text = "Next",
                     onClick = { /*TODO*/ },
