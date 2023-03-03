@@ -2,9 +2,9 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/introFragment0">
+    app:startDestination="@id/introFragment1">
     <fragment
-        android:id="@+id/introFragment0"
-        android:name="dev.atick.safety.ui.intro.screen0.IntroFragment0"
-        android:label="IntroFragment0" />
+        android:id="@+id/introFragment1"
+        android:name="dev.atick.safety.ui.intro.screen1.IntroFragment1"
+        android:label="IntroFragment1" />
 </navigation>
