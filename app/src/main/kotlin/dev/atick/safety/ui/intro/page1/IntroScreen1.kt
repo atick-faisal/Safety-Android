@@ -1,4 +1,4 @@
-package dev.atick.safety.ui.intro.screen1
+package dev.atick.safety.ui.intro.page1
 
 import android.app.Activity
 import androidx.compose.foundation.Image

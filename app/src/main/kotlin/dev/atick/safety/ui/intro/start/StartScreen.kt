@@ -1,4 +1,4 @@
-package dev.atick.safety.ui.intro.screen0
+package dev.atick.safety.ui.intro.start
 
 import android.app.Activity
 import androidx.compose.foundation.Image
@@ -21,7 +21,7 @@ import dagger.hilt.android.internal.managers.FragmentComponentManager
 import dev.atick.safety.R
 
 @Composable
-fun IntroScreen0(
+fun StartScreen(
     onNextClick: () -> Unit,
     onBackClick: (() -> Unit)? = null
 ) {

@@ -5,6 +5,6 @@
     app:startDestination="@id/introFragment1">
     <fragment
         android:id="@+id/introFragment1"
-        android:name="dev.atick.safety.ui.intro.screen1.IntroFragment1"
+        android:name="dev.atick.safety.ui.intro.page1.IntroFragment1"
         android:label="IntroFragment1" />
 </navigation>
