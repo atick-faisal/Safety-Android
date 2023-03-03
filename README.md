@@ -1,5 +1,5 @@
 <h1 align="center">
-Jetpack Compose App Template
+Safety Android
 <p>
 <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="400" />
 </p>
