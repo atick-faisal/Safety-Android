@@ -20,86 +20,84 @@ fun AddContactDialog(
     onAccept: () -> Unit,
     onDismiss: () -> Unit
 ) {
-    MaterialTheme {
-        AlertDialog(
-            onDismissRequest = onDismiss,
-            title = {
-                Text(text = "Add Contact")
-            },
-            text = {
-                Column {
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { },
-                        label = { Text(text = "Name") },
-                        placeholder = { Text(text = "e.g. John Doe") },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Person,
-                                contentDescription = "name"
-                            )
-                        },
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { },
-                        label = { Text(text = "Phone") },
-                        placeholder = { Text(text = "e.g. +974") },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Phone,
-                                contentDescription = "phone"
-                            )
-                        },
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Phone
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    OutlinedTextField(
-                        value = "",
-                        onValueChange = { },
-                        label = { Text(text = "Email") },
-                        placeholder = { Text(text = "e.g. someone@mail.com") },
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Default.Email,
-                                contentDescription = "email"
-                            )
-                        },
-                        keyboardOptions = KeyboardOptions.Default.copy(
-                            keyboardType = KeyboardType.Email
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Checkbox(checked = false, onCheckedChange = {})
-                        Text(text = "High Risk", fontWeight = FontWeight.Bold)
-                    }
-                }
-            },
-            confirmButton = {
-                Button(onClick = onAccept) {
-                    Text("Save")
-                }
-            },
-            dismissButton = {
-                Button(
-                    onClick = onDismiss,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.error,
-                        contentColor = MaterialTheme.colorScheme.onError
-                    )
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Text(text = "Add Contact")
+        },
+        text = {
+            Column {
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { },
+                    label = { Text(text = "Name") },
+                    placeholder = { Text(text = "e.g. John Doe") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "name"
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { },
+                    label = { Text(text = "Phone") },
+                    placeholder = { Text(text = "e.g. +974") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Phone,
+                            contentDescription = "phone"
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Phone
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                OutlinedTextField(
+                    value = "",
+                    onValueChange = { },
+                    label = { Text(text = "Email") },
+                    placeholder = { Text(text = "e.g. someone@mail.com") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Email,
+                            contentDescription = "email"
+                        )
+                    },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Email
+                    ),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Discard")
+                    Checkbox(checked = false, onCheckedChange = {})
+                    Text(text = "High Risk", fontWeight = FontWeight.Bold)
                 }
             }
-        )
-    }
+        },
+        confirmButton = {
+            Button(onClick = onAccept) {
+                Text("Save")
+            }
+        },
+        dismissButton = {
+            Button(
+                onClick = onDismiss,
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError
+                )
+            ) {
+                Text("Discard")
+            }
+        }
+    )
 }
