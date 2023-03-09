@@ -16,8 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.atick.safety.ui.content.contacts.AddContactDialog
-import dev.atick.safety.ui.content.contacts.ContactsScreen
+import dev.atick.safety.ui.content.devices.AddDeviceDialog
+import dev.atick.safety.ui.content.devices.DevicesScreen
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +64,7 @@ fun ContentScreen() {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            ContactsScreen(
+            DevicesScreen(
                 modifier = Modifier
                     .background(Color.White)
                     .padding(32.dp)
@@ -72,7 +72,7 @@ fun ContentScreen() {
         }
 
         AnimatedVisibility(visible = openDialog) {
-            AddContactDialog(onAccept = { openDialog = false }, onDismiss = { openDialog = false })
+            AddDeviceDialog(onDismiss = { openDialog = false }, onDeviceClick = {})
         }
     }
 }
