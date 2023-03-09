@@ -5,7 +5,7 @@ import java.util.*
 
 data class FallIncident(
     val victimName: String,
-    val fallSeverity: FallSeverity = FallSeverity.Mild,
+    val highRisk: Boolean = false,
     val timeStamp: Long = Date().time
 ) {
     fun getFormattedDate(): String {
@@ -15,9 +15,4 @@ data class FallIncident(
     fun getFormattedTime(): String {
         return SimpleDateFormat("hh:mm", Locale.US).format(timeStamp)
     }
-}
-
-sealed interface FallSeverity {
-    object Severe : FallSeverity
-    object Mild : FallSeverity
 }

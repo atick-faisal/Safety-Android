@@ -1,28 +1,30 @@
 package dev.atick.safety.ui.content
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Contacts
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Watch
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.atick.safety.ui.content.home.HomeScreen
-import dev.atick.safety.ui.content.notifications.NotificationScreen
+import dev.atick.safety.ui.content.contacts.AddContactDialog
+import dev.atick.safety.ui.content.contacts.ContactsScreen
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun ContentScreen() {
+
+    var openDialog by remember { mutableStateOf(false) }
+
     Scaffold(
         bottomBar = {
             Row(
@@ -50,6 +52,11 @@ fun ContentScreen() {
                     Icon(imageVector = Icons.Default.Watch, contentDescription = "device")
                 }
             }
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { openDialog = true }) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+            }
         }
     ) { paddingValues ->
         Box(
@@ -57,11 +64,15 @@ fun ContentScreen() {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            NotificationScreen(
+            ContactsScreen(
                 modifier = Modifier
                     .background(Color.White)
                     .padding(32.dp)
             )
+        }
+
+        AnimatedVisibility(visible = openDialog) {
+            AddContactDialog(onAccept = { openDialog = false }, onDismiss = { openDialog = false })
         }
     }
 }
