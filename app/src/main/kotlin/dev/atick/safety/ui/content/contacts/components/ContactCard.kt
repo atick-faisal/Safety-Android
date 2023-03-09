@@ -1,9 +1,12 @@
-package dev.atick.safety.ui.common.components
+package dev.atick.safety.ui.content.contacts.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -11,14 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.atick.safety.data.common.FallIncident
+import dev.atick.safety.data.contacts.Contact
 
 @Composable
-fun NotificationCard(
-    fallIncident: FallIncident
+fun ContactCard(
+    contact: Contact,
+    onDeleteClick: () -> Unit
 ) {
     val cardColor = remember {
-        if (fallIncident.highRisk) Color(0xFFFF9292)
+        if (contact.highRisk) Color(0xFFFF9292)
         else Color(0xFFCECECE)
     }
 
@@ -36,12 +40,9 @@ fun NotificationCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = fallIncident.victimName, fontSize = 18.sp)
-            Column(
-                horizontalAlignment = Alignment.End
-            ) {
-                Text(text = fallIncident.getFormattedDate())
-                Text(text = fallIncident.getFormattedTime())
+            Text(text = contact.name, fontSize = 18.sp)
+            IconButton(onClick = onDeleteClick) {
+                Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
             }
         }
     }

@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.atick.safety.data.common.FallIncident
-import dev.atick.safety.data.common.FallSeverity
 import dev.atick.safety.ui.common.components.NotificationCard
 
 @Composable
@@ -31,7 +30,7 @@ fun NotificationScreen(
         NotificationCard(
             fallIncident = FallIncident(
                 "Brother Nawaf",
-                fallSeverity = FallSeverity.Severe
+                highRisk = true
             )
         )
     }
