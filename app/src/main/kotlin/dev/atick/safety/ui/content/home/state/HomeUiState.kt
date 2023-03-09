@@ -1,4 +1,4 @@
-package dev.atick.safety.ui.home.state
+package dev.atick.safety.ui.content.home.state
 
 import dev.atick.safety.data.home.Item
 import dev.atick.core.ui.base.BaseUiState

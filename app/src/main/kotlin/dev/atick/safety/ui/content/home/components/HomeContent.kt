@@ -1,4 +1,4 @@
-package dev.atick.safety.ui.home.components
+package dev.atick.safety.ui.content.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

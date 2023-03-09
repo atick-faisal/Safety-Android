@@ -1,4 +1,4 @@
-package dev.atick.safety.ui.home
+package dev.atick.safety.ui.content.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

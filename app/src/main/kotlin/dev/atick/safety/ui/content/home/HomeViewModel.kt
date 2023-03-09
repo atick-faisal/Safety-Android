@@ -1,4 +1,4 @@
-package dev.atick.safety.ui.home
+package dev.atick.safety.ui.content.home
 //
 //import androidx.lifecycle.viewModelScope
 //import dagger.hilt.android.lifecycle.HiltViewModel
