@@ -17,6 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.atick.safety.R
+import dev.atick.safety.data.common.FallIncident
+import dev.atick.safety.ui.common.components.NotificationCard
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -112,26 +114,28 @@ fun HomeScreen(
 
         Text(text = "Recent Falls", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
 
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFCECECE))
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = "Brother Nawaf", fontSize = 18.sp, color = Color(0xFF4E4E4E))
-                Column(
-                    horizontalAlignment = Alignment.End
-                ) {
-                    Text(text = "25-02-1023", color = Color(0xFF4E4E4E))
-                    Text(text = "14:34", color = Color(0xFF4E4E4E))
-                }
-            }
-        }
+        NotificationCard(fallIncident = FallIncident(victimName = "Brother Nawaf"))
+
+//        Card(
+//            modifier = Modifier.fillMaxWidth(),
+//            colors = CardDefaults.cardColors(containerColor = Color(0xFFCECECE))
+//        ) {
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(16.dp),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.SpaceBetween
+//            ) {
+//                Text(text = "Brother Nawaf", fontSize = 18.sp, color = Color(0xFF4E4E4E))
+//                Column(
+//                    horizontalAlignment = Alignment.End
+//                ) {
+//                    Text(text = "25-02-1023", color = Color(0xFF4E4E4E))
+//                    Text(text = "14:34", color = Color(0xFF4E4E4E))
+//                }
+//            }
+//        }
 
         Text(
             text = "See All",

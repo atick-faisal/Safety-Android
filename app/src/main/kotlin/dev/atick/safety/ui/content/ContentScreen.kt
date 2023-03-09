@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import dev.atick.safety.ui.content.home.HomeScreen
+import dev.atick.safety.ui.content.notifications.NotificationScreen
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,7 +57,7 @@ fun ContentScreen() {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            HomeScreen(
+            NotificationScreen(
                 modifier = Modifier
                     .background(Color.White)
                     .padding(32.dp)
