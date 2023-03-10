@@ -16,8 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.atick.safety.ui.content.devices.AddDeviceDialog
+import dev.atick.safety.data.common.FallIncident
 import dev.atick.safety.ui.content.devices.DevicesScreen
+import dev.atick.safety.ui.content.notifications.components.NotificationDialog
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,7 +73,11 @@ fun ContentScreen() {
         }
 
         AnimatedVisibility(visible = openDialog) {
-            AddDeviceDialog(onDismiss = { openDialog = false }, onDeviceClick = {})
+            NotificationDialog(
+                fallIncident = FallIncident("Brother Nawaf"),
+                onConfirm = { openDialog = false }) {
+                openDialog = false
+            }
         }
     }
 }
