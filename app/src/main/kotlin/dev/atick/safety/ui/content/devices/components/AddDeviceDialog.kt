@@ -1,17 +1,16 @@
-package dev.atick.safety.ui.content.devices
+package dev.atick.safety.ui.content.devices.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import dev.atick.safety.data.devices.SafetyDevice
-import dev.atick.safety.ui.content.devices.components.DeviceCard
 
 @Composable
 fun AddDeviceDialog(
+    devices: List<SafetyDevice>,
     onDeviceClick: (SafetyDevice) -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -21,13 +20,15 @@ fun AddDeviceDialog(
             Text(text = "Pair Device")
         },
         text = {
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth()
             ) {
-                DeviceCard(safetyDevice = SafetyDevice("", "ESP32"), onClick = onDeviceClick)
-                DeviceCard(safetyDevice = SafetyDevice("", "ESP32"), onClick = onDeviceClick)
-                DeviceCard(safetyDevice = SafetyDevice("", "ESP32"), onClick = onDeviceClick)
+                items(devices) { device ->
+                    DeviceCard(
+                        safetyDevice = device,
+                        onClick = onDeviceClick
+                    )
+                }
             }
         },
         confirmButton = {

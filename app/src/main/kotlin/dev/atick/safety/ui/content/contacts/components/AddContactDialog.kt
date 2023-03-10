@@ -1,4 +1,4 @@
-package dev.atick.safety.ui.content.contacts
+package dev.atick.safety.ui.content.contacts.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -13,11 +13,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import dev.atick.safety.data.contacts.Contact
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddContactDialog(
-    onAccept: () -> Unit,
+    onAccept: (Contact) -> Unit,
     onDismiss: () -> Unit
 ) {
     AlertDialog(
@@ -84,7 +85,7 @@ fun AddContactDialog(
             }
         },
         confirmButton = {
-            Button(onClick = onAccept) {
+            Button(onClick = {}) {
                 Text("Save")
             }
         },
