@@ -30,7 +30,7 @@ import dev.atick.safety.ui.common.components.LargeButton
 @Composable
 fun IntroScreen4(
     onNextClick: () -> Unit,
-    onBackClick: (() -> Unit)? = null
+    onBackClick: () -> Unit
 ) {
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -99,12 +99,12 @@ fun IntroScreen4(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = onBackClick) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "back")
                 }
                 LargeButton(
                     text = "Next",
-                    onClick = { /*TODO*/ },
+                    onClick = onNextClick,
                     trailingIcon = Icons.Default.ArrowForward
                 )
             }

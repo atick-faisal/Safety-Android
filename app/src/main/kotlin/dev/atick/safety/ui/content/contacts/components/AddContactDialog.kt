@@ -18,7 +18,7 @@ import dev.atick.safety.data.contacts.Contact
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddContactDialog(
-    onAccept: (Contact) -> Unit,
+    onConfirm: (Contact) -> Unit,
     onDismiss: () -> Unit
 ) {
     AlertDialog(
@@ -85,7 +85,7 @@ fun AddContactDialog(
             }
         },
         confirmButton = {
-            Button(onClick = {}) {
+            Button(onClick = { onConfirm(Contact("A", "B")) }) {
                 Text("Save")
             }
         },

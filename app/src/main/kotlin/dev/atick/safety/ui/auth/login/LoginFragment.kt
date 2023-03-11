@@ -1,6 +1,7 @@
 package dev.atick.safety.ui.auth.login
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.atick.core.ui.base.BaseFragment
 import dev.atick.core.ui.theme.JetpackTheme
@@ -11,8 +12,13 @@ class LoginFragment : BaseFragment() {
     @Composable
     override fun ComposeUi() {
         JetpackTheme {
-            LoginScreen()
+            LoginScreen(::navigateToContentFragment)
         }
     }
 
+    private fun navigateToContentFragment() {
+        findNavController().navigate(
+            LoginFragmentDirections.actionLoginFragmentToContentFragment()
+        )
+    }
 }

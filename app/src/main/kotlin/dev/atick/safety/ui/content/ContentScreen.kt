@@ -1,6 +1,5 @@
 package dev.atick.safety.ui.content
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -16,13 +15,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.atick.safety.data.common.FallIncident
+import dev.atick.safety.ui.content.contacts.ContactsScreen
+import dev.atick.safety.ui.content.contacts.components.AddContactDialog
 import dev.atick.safety.ui.content.devices.DevicesScreen
+import dev.atick.safety.ui.content.devices.components.AddDeviceDialog
+import dev.atick.safety.ui.content.home.HomeScreen
+import dev.atick.safety.ui.content.home.components.ContactSelectionDialog
+import dev.atick.safety.ui.content.notifications.NotificationScreen
 import dev.atick.safety.ui.content.notifications.components.NotificationDialog
+import dev.atick.safety.ui.content.state.ScreenName
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun ContentScreen() {
+fun ContentScreen(
+    contentViewModel: ContentViewModel = viewModel()
+) {
+    val contentUiState by contentViewModel.contentUiState.collectAsState()
 
     var openDialog by remember { mutableStateOf(false) }
 
@@ -37,26 +47,37 @@ fun ContentScreen() {
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Home) }) {
                     Icon(imageVector = Icons.Default.Home, contentDescription = "home")
                 }
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Notifications) }) {
                     Icon(
                         imageVector = Icons.Outlined.Notifications,
                         contentDescription = "notification"
                     )
                 }
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Contacts) }) {
                     Icon(imageVector = Icons.Default.Contacts, contentDescription = "contacts")
                 }
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Devices) }) {
                     Icon(imageVector = Icons.Default.Watch, contentDescription = "device")
                 }
             }
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { openDialog = true }) {
-                Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+            when (contentUiState.currentScreen) {
+                ScreenName.Home -> {}
+                ScreenName.Notifications -> {}
+                ScreenName.Contacts -> {
+                    FloatingActionButton(onClick = { openDialog = true }) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                    }
+                }
+                ScreenName.Devices -> {
+                    FloatingActionButton(onClick = { openDialog = true }) {
+                        Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                    }
+                }
             }
         }
     ) { paddingValues ->
@@ -65,18 +86,63 @@ fun ContentScreen() {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            DevicesScreen(
-                modifier = Modifier
-                    .background(Color.White)
-                    .padding(32.dp)
-            )
-        }
-
-        AnimatedVisibility(visible = openDialog) {
-            NotificationDialog(
-                fallIncident = FallIncident("Brother Nawaf"),
-                onConfirm = { openDialog = false }) {
-                openDialog = false
+            when (contentUiState.currentScreen) {
+                ScreenName.Home -> {
+                    HomeScreen(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(32.dp)
+                    )
+                    if (openDialog) {
+                        ContactSelectionDialog(
+                            contacts = listOf(),
+                            onContactSelected = { },
+                            onConfirm = { openDialog = false },
+                            onDismiss = { openDialog = false }
+                        )
+                    }
+                }
+                ScreenName.Notifications -> {
+                    NotificationScreen(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(32.dp)
+                    )
+                    if (openDialog) {
+                        NotificationDialog(
+                            fallIncident = FallIncident("Brother Nawaf"),
+                            onConfirm = { openDialog = false },
+                            onDismiss = { openDialog = false }
+                        )
+                    }
+                }
+                ScreenName.Contacts -> {
+                    ContactsScreen(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(32.dp)
+                    )
+                    if (openDialog) {
+                        AddContactDialog(
+                            onConfirm = { openDialog = false },
+                            onDismiss = { openDialog = false }
+                        )
+                    }
+                }
+                ScreenName.Devices -> {
+                    DevicesScreen(
+                        modifier = Modifier
+                            .background(Color.White)
+                            .padding(32.dp)
+                    )
+                    if (openDialog) {
+                        AddDeviceDialog(
+                            devices = listOf(),
+                            onDeviceClick = { openDialog = false },
+                            onDismiss = { openDialog = false }
+                        )
+                    }
+                }
             }
         }
     }
