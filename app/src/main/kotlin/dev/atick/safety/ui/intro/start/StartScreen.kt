@@ -21,10 +21,7 @@ import dagger.hilt.android.internal.managers.FragmentComponentManager
 import dev.atick.safety.R
 
 @Composable
-fun StartScreen(
-    onNextClick: () -> Unit,
-    onBackClick: (() -> Unit)? = null
-) {
+fun StartScreen() {
     val view = LocalView.current
     if (!view.isInEditMode) {
         // ... ViewCompat.getWindowInsetsController is deprecated

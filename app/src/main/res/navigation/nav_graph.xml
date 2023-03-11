@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/introFragment1">
+    app:startDestination="@id/startFragment">
     <fragment
         android:id="@+id/introFragment1"
         android:name="dev.atick.safety.ui.intro.page1.IntroFragment1"
@@ -83,4 +83,17 @@
         android:id="@+id/contentFragment"
         android:name="dev.atick.safety.ui.content.ContentFragment"
         android:label="ContentFragment" />
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="dev.atick.safety.ui.intro.start.StartFragment"
+        android:label="StartFragment" >
+        <action
+            android:id="@+id/action_startFragment_to_introFragment1"
+            app:destination="@id/introFragment1" />
+        <action
+            android:id="@+id/action_startFragment_to_contentFragment"
+            app:destination="@id/contentFragment"
+            app:popUpTo="@id/startFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

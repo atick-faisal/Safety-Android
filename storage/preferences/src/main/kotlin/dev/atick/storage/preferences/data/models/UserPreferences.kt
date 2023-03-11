@@ -5,5 +5,5 @@ import kotlinx.serialization.SerialName
 @kotlinx.serialization.Serializable
 data class UserPreferences(
     @SerialName("user_id")
-    val userId: String = "-1"
+    val userId: String? = null
 )
