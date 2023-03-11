@@ -19,7 +19,7 @@ import dev.atick.safety.data.contacts.Contact
 @Composable
 fun ContactCard(
     contact: Contact,
-    onDeleteClick: () -> Unit
+    onDeleteClick: (Contact) -> Unit
 ) {
     val cardColor = remember {
         if (contact.highRisk) Color(0xFFFF9292)
@@ -41,7 +41,7 @@ fun ContactCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = contact.name, fontSize = 18.sp)
-            IconButton(onClick = onDeleteClick) {
+            IconButton(onClick = { onDeleteClick(contact) }) {
                 Icon(imageVector = Icons.Default.Delete, contentDescription = "delete")
             }
         }

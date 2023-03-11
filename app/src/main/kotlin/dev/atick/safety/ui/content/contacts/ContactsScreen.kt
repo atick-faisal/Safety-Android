@@ -2,6 +2,9 @@ package dev.atick.safety.ui.content.contacts
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,6 +15,8 @@ import dev.atick.safety.ui.content.contacts.components.ContactCard
 
 @Composable
 fun ContactsScreen(
+    contacts: List<Contact>,
+    onDeleteClick: (Contact) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -19,9 +24,13 @@ fun ContactsScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(text = "Contacts", fontSize = 24.sp)
-        ContactCard(contact = Contact("Brother Nawaf", "")) { }
-        ContactCard(contact = Contact("Mom", "")) { }
-        ContactCard(contact = Contact("Dad", "")) { }
-        ContactCard(contact = Contact("Dr. Hussain", "")) { }
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(contacts) { contact ->
+                ContactCard(contact = contact, onDeleteClick = onDeleteClick)
+            }
+        }
     }
 }

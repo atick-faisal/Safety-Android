@@ -6,6 +6,7 @@ import java.util.*
 data class FallIncident(
     val victimName: String,
     val highRisk: Boolean = false,
+    val seenByUser: Boolean = false,
     val timeStamp: Long = Date().time
 ) {
     fun getFormattedDate(): String {

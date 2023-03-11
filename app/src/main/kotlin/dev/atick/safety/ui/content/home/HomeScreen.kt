@@ -24,6 +24,7 @@ import dev.atick.safety.ui.common.components.NotificationCard
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    onAlarmClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -100,7 +101,11 @@ fun HomeScreen(
             }
         }
 
-        Surface(shape = RoundedCornerShape(16.dp), color = Color(0xFFE373FF), onClick = {}) {
+        Surface(
+            shape = RoundedCornerShape(16.dp),
+            color = Color(0xFFE373FF),
+            onClick = onAlarmClick
+        ) {
             Text(
                 text = "Alarm",
                 fontSize = 32.sp,

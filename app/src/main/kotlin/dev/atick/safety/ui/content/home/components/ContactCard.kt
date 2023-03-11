@@ -30,7 +30,9 @@ fun ContactCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = contact.name, fontSize = 18.sp)
-            Checkbox(checked = contact.selected, onCheckedChange = { onSelect(contact) })
+            Checkbox(checked = contact.selected, onCheckedChange = {
+                onSelect(contact.copy(selected = it))
+            })
         }
     }
 }
