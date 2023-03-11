@@ -3,11 +3,11 @@ package dev.atick.safety.ui.content
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Contacts
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Watch
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Contacts
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Watch
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -53,6 +53,7 @@ fun ContentScreen(
     }
 
     var openDialog by remember { mutableStateOf(false) }
+    var openNotificationDialog by remember { mutableStateOf<FallIncident?>(null) }
 
     Scaffold(
         bottomBar = {
@@ -66,19 +67,29 @@ fun ContentScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Home) }) {
-                    Icon(imageVector = Icons.Default.Home, contentDescription = "home")
+                    Icon(imageVector = Icons.Outlined.Home, contentDescription = "home")
                 }
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Notifications) }) {
                     Icon(
                         imageVector = Icons.Outlined.Notifications,
                         contentDescription = "notification"
                     )
+                    if (contentUiState.unreadFallIncidents.isNotEmpty()) {
+                        Icon(
+                            imageVector = Icons.Default.Circle,
+                            contentDescription = "dot",
+                            modifier = Modifier
+                                .padding(bottom = 16.dp, start = 16.dp)
+                                .size(8.dp),
+                            tint = Color.Red
+                        )
+                    }
                 }
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Contacts) }) {
-                    Icon(imageVector = Icons.Default.Contacts, contentDescription = "contacts")
+                    Icon(imageVector = Icons.Outlined.Contacts, contentDescription = "contacts")
                 }
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Devices) }) {
-                    Icon(imageVector = Icons.Default.Watch, contentDescription = "device")
+                    Icon(imageVector = Icons.Outlined.Watch, contentDescription = "device")
                 }
             }
         },
@@ -108,7 +119,12 @@ fun ContentScreen(
             when (contentUiState.currentScreen) {
                 ScreenName.Home -> {
                     HomeScreen(
+                        nFallIncidents = contentUiState.unreadFallIncidents.size,
+                        recentFallIncident = contentUiState.recentFallIncident,
                         onAlarmClick = { openDialog = true },
+                        onSeeAllClick = {
+                            contentViewModel.setCurrentScreen(ScreenName.Notifications)
+                        },
                         modifier = Modifier
                             .background(Color.White)
                             .padding(32.dp)
@@ -124,15 +140,21 @@ fun ContentScreen(
                 }
                 ScreenName.Notifications -> {
                     NotificationScreen(
+                        readFallIncidents = contentUiState.readFallIncidents,
+                        unreadFallIncidents = contentUiState.unreadFallIncidents,
+                        onNotificationClick = {
+                            openNotificationDialog = it
+                            contentViewModel.updateFallIncident(it)
+                        },
                         modifier = Modifier
                             .background(Color.White)
                             .padding(32.dp)
                     )
-                    if (openDialog) {
+                    openNotificationDialog?.let {
                         NotificationDialog(
-                            fallIncident = FallIncident("Brother Nawaf"),
-                            onConfirm = { openDialog = false },
-                            onDismiss = { openDialog = false }
+                            fallIncident = it,
+                            onConfirm = { openNotificationDialog = null },
+                            onDismiss = { openNotificationDialog = null }
                         )
                     }
                 }

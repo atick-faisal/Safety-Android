@@ -26,11 +26,11 @@ interface SafetyDao {
     suspend fun updateFallIncident(fallIncident: FallIncident)
 
     @Query("SELECT * FROM falls LIMIT 1")
-    fun getRecentFallIncident(): Flow<FallIncident>
+    fun getRecentFallIncident(): Flow<FallIncident?>
 
     @Query("SELECT * FROM falls WHERE read_by_user = false")
-    fun getUnreadFallEvents(): Flow<List<FallIncident>>
+    fun getUnreadFallIncidents(): Flow<List<FallIncident>>
 
     @Query("SELECT * FROM falls WHERE read_by_user = true")
-    fun getReadFallEvents(): Flow<List<FallIncident>>
+    fun getReadFallIncidents(): Flow<List<FallIncident>>
 }

@@ -11,7 +11,7 @@ interface ContentRepository {
     fun getContacts(): Flow<List<Contact>>
     suspend fun insertFallIncident(fallIncident: FallIncident): Result<Unit>
     suspend fun updateFallIncident(fallIncident: FallIncident): Result<Unit>
-    fun getRecentFallIncident(): Flow<FallIncident>
+    fun getRecentFallIncident(): Flow<FallIncident?>
     fun getUnreadFallIncidents(): Flow<List<FallIncident>>
     fun getReadFallIncidents(): Flow<List<FallIncident>>
 }

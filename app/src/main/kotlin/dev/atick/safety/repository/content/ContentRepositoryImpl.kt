@@ -1,6 +1,7 @@
 package dev.atick.safety.repository.content
 
 import dev.atick.safety.data.common.FallIncident
+import dev.atick.safety.data.common.asFallIncident
 import dev.atick.safety.data.contacts.Contact
 import dev.atick.safety.data.contacts.asContact
 import dev.atick.storage.room.data.SafetyDao
@@ -45,22 +46,36 @@ class ContentRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertFallIncident(fallIncident: FallIncident): Result<Unit> {
-        TODO("Not yet implemented")
+        return try {
+            safetyDao.insertFallIncident(fallIncident.asRoomFallIncident())
+            Result.success(Unit)
+        } catch (exception: Exception) {
+            Result.failure(exception)
+        }
     }
 
     override suspend fun updateFallIncident(fallIncident: FallIncident): Result<Unit> {
-        TODO("Not yet implemented")
+        return try {
+            safetyDao.updateFallIncident(fallIncident.asRoomFallIncident())
+            Result.success(Unit)
+        } catch (exception: Exception) {
+            Result.failure(exception)
+        }
     }
 
-    override fun getRecentFallIncident(): Flow<FallIncident> {
-        TODO("Not yet implemented")
+    override fun getRecentFallIncident(): Flow<FallIncident?> {
+        return safetyDao.getRecentFallIncident().map { it?.asFallIncident() }
     }
 
     override fun getUnreadFallIncidents(): Flow<List<FallIncident>> {
-        TODO("Not yet implemented")
+        return safetyDao.getUnreadFallIncidents().map { fallIncidents ->
+            fallIncidents.map { it.asFallIncident() }
+        }
     }
 
     override fun getReadFallIncidents(): Flow<List<FallIncident>> {
-        TODO("Not yet implemented")
+        return safetyDao.getReadFallIncidents().map { fallIncidents ->
+            fallIncidents.map { it.asFallIncident() }
+        }
     }
 }
