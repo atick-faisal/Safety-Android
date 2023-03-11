@@ -2,7 +2,83 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/contentFragment">
+    app:startDestination="@id/introFragment1">
+    <fragment
+        android:id="@+id/introFragment1"
+        android:name="dev.atick.safety.ui.intro.page1.IntroFragment1"
+        android:label="IntroFragment1" >
+        <action
+            android:id="@+id/action_introFragment1_to_introFragment2"
+            app:destination="@id/introFragment2"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/introFragment2"
+        android:name="dev.atick.safety.ui.intro.page2.IntroFragment2"
+        android:label="IntroFragment2" >
+        <action
+            android:id="@+id/action_introFragment2_to_introFragment3"
+            app:destination="@id/introFragment3"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/introFragment3"
+        android:name="dev.atick.safety.ui.intro.page3.IntroFragment3"
+        android:label="IntroFragment3" >
+        <action
+            android:id="@+id/action_introFragment3_to_introFragment4"
+            app:destination="@id/introFragment4"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/introFragment4"
+        android:name="dev.atick.safety.ui.intro.page4.IntroFragment4"
+        android:label="IntroFragment4" >
+        <action
+            android:id="@+id/action_introFragment4_to_introFragment5"
+            app:destination="@id/introFragment5"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/introFragment5"
+        android:name="dev.atick.safety.ui.intro.page5.IntroFragment5"
+        android:label="IntroFragment5" >
+        <action
+            android:id="@+id/action_introFragment5_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/introFragment1"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="dev.atick.safety.ui.auth.login.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_contentFragment"
+            app:destination="@id/contentFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/contentFragment"
         android:name="dev.atick.safety.ui.content.ContentFragment"

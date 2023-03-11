@@ -27,7 +27,9 @@ import dev.atick.safety.ui.common.components.LargeButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(
+    onLoginClick: () -> Unit
+) {
 
     val view = LocalView.current
     if (!view.isInEditMode) {
@@ -96,6 +98,6 @@ fun LoginScreen() {
 
         Spacer(modifier = Modifier.weight(1F))
 
-        LargeButton(text = "Login", onClick = { /*TODO*/ }, modifier = Modifier.fillMaxWidth())
+        LargeButton(text = "Login", onClick = onLoginClick, modifier = Modifier.fillMaxWidth())
     }
 }
