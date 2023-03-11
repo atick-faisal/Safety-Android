@@ -4,7 +4,7 @@ import android.util.Patterns
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-fun String?.isEmailValid(): Boolean {
+fun String?.isValidEmail(): Boolean {
     return !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }
 

@@ -21,5 +21,4 @@ class IntroFragment1 : BaseFragment() {
             IntroFragment1Directions.actionIntroFragment1ToIntroFragment2()
         )
     }
-
 }

@@ -12,7 +12,7 @@ class PreferencesDatastoreImpl @Inject constructor(
         datastore.updateData { it.copy(userId = userId) }
     }
 
-    override suspend fun getUserId(): String {
+    override suspend fun getUserId(): String? {
         return datastore.data.first().userId
     }
 }
