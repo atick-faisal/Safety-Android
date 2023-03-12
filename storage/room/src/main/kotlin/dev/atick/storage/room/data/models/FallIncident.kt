@@ -7,9 +7,8 @@ import java.util.*
 
 @Entity(tableName = "falls")
 data class FallIncident(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     @ColumnInfo(name = "victim_name") val victimName: String,
     @ColumnInfo(name = "high_risk") val highRisk: Boolean = false,
     @ColumnInfo(name = "read_by_user") val readByUser: Boolean = false,
-    @ColumnInfo(name = "timestamp") val timeStamp: Long = Date().time
+    @PrimaryKey val timestamp: Long = Date().time
 )

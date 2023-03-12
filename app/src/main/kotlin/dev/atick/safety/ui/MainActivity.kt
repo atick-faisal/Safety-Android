@@ -5,19 +5,11 @@ import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import dev.atick.safety.R
-import dev.atick.core.extensions.collectWithLifecycle
 import dev.atick.core.ui.extensions.checkForPermissions
-import dev.atick.network.utils.NetworkUtils
-import javax.inject.Inject
+import dev.atick.safety.R
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    @Inject
-    // ... At least one inject in @AndroidEntryPoint is required
-    // ... to solve Hilt deprecation issue
-    lateinit var networkUtils: NetworkUtils
 
     private val permissions = mutableListOf<String>()
 
@@ -26,14 +18,13 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_JetpackComposeStarter)
         setContentView(R.layout.activity_main)
 
-        collectWithLifecycle(networkUtils.currentState) {}
-
         //                ... App Permissions ...
         // ----------------------------------------------------------
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
         }
-        permissions.add(Manifest.permission.CAMERA)
+        permissions.add(Manifest.permission.READ_SMS)
+        permissions.add(Manifest.permission.SEND_SMS)
         checkForPermissions(permissions)
     }
 }
