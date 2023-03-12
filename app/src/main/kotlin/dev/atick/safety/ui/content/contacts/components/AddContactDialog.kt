@@ -7,7 +7,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -21,6 +21,11 @@ fun AddContactDialog(
     onConfirm: (Contact) -> Unit,
     onDismiss: () -> Unit
 ) {
+    var name by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf<String?>(null) }
+    var highRisk by remember { mutableStateOf(false) }
+
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
@@ -29,9 +34,9 @@ fun AddContactDialog(
         text = {
             Column {
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = { },
-                    label = { Text(text = "Name") },
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text(text = "Name *") },
                     placeholder = { Text(text = "e.g. John Doe") },
                     leadingIcon = {
                         Icon(
@@ -42,9 +47,9 @@ fun AddContactDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = { },
-                    label = { Text(text = "Phone") },
+                    value = phone,
+                    onValueChange = { phone = it },
+                    label = { Text(text = "Phone *") },
                     placeholder = { Text(text = "e.g. +974") },
                     leadingIcon = {
                         Icon(
@@ -58,8 +63,8 @@ fun AddContactDialog(
                     modifier = Modifier.fillMaxWidth()
                 )
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = { },
+                    value = email ?: "",
+                    onValueChange = { email = it },
                     label = { Text(text = "Email") },
                     placeholder = { Text(text = "e.g. someone@mail.com") },
                     leadingIcon = {
@@ -79,13 +84,24 @@ fun AddContactDialog(
                         .padding(vertical = 8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Checkbox(checked = false, onCheckedChange = {})
+                    Checkbox(checked = highRisk, onCheckedChange = { highRisk = it })
                     Text(text = "High Risk", fontWeight = FontWeight.Bold)
                 }
             }
         },
         confirmButton = {
-            Button(onClick = { onConfirm(Contact("A", "B")) }) {
+            Button(
+                onClick = {
+                    onConfirm(
+                        Contact(
+                            name = name,
+                            phone = phone,
+                            email = email,
+                            highRisk = highRisk
+                        )
+                    )
+                }
+            ) {
                 Text("Save")
             }
         },

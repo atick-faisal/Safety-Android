@@ -3,18 +3,21 @@ package dev.atick.safety.ui.content
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Contacts
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Watch
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.Contacts
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Watch
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.atick.safety.data.common.FallIncident
 import dev.atick.safety.ui.content.contacts.ContactsScreen
@@ -26,6 +29,7 @@ import dev.atick.safety.ui.content.home.components.ContactSelectionDialog
 import dev.atick.safety.ui.content.notifications.NotificationScreen
 import dev.atick.safety.ui.content.notifications.components.NotificationDialog
 import dev.atick.safety.ui.content.state.ScreenName
+import kotlinx.coroutines.launch
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -33,8 +37,23 @@ fun ContentScreen(
     contentViewModel: ContentViewModel = viewModel()
 ) {
     val contentUiState by contentViewModel.contentUiState.collectAsState()
+    val snackbarHost = remember { SnackbarHostState() }
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+
+    contentUiState.toastMessage?.let {
+        val errorMessage = it.asString()
+        LaunchedEffect(contentUiState) {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    snackbarHost.showSnackbar(errorMessage)
+                    contentViewModel.clearToastMessage()
+                }
+            }
+        }
+    }
 
     var openDialog by remember { mutableStateOf(false) }
+    var openNotificationDialog by remember { mutableStateOf<FallIncident?>(null) }
 
     Scaffold(
         bottomBar = {
@@ -48,19 +67,29 @@ fun ContentScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Home) }) {
-                    Icon(imageVector = Icons.Default.Home, contentDescription = "home")
+                    Icon(imageVector = Icons.Outlined.Home, contentDescription = "home")
                 }
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Notifications) }) {
                     Icon(
                         imageVector = Icons.Outlined.Notifications,
                         contentDescription = "notification"
                     )
+                    if (contentUiState.unreadFallIncidents.isNotEmpty()) {
+                        Icon(
+                            imageVector = Icons.Default.Circle,
+                            contentDescription = "dot",
+                            modifier = Modifier
+                                .padding(bottom = 16.dp, start = 16.dp)
+                                .size(8.dp),
+                            tint = Color.Red
+                        )
+                    }
                 }
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Contacts) }) {
-                    Icon(imageVector = Icons.Default.Contacts, contentDescription = "contacts")
+                    Icon(imageVector = Icons.Outlined.Contacts, contentDescription = "contacts")
                 }
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Devices) }) {
-                    Icon(imageVector = Icons.Default.Watch, contentDescription = "device")
+                    Icon(imageVector = Icons.Outlined.Watch, contentDescription = "device")
                 }
             }
         },
@@ -79,7 +108,8 @@ fun ContentScreen(
                     }
                 }
             }
-        }
+        },
+        snackbarHost = { SnackbarHost(hostState = snackbarHost) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -89,14 +119,20 @@ fun ContentScreen(
             when (contentUiState.currentScreen) {
                 ScreenName.Home -> {
                     HomeScreen(
+                        nFallIncidents = contentUiState.unreadFallIncidents.size,
+                        recentFallIncident = contentUiState.recentFallIncident,
+                        onAlarmClick = { openDialog = true },
+                        onSeeAllClick = {
+                            contentViewModel.setCurrentScreen(ScreenName.Notifications)
+                        },
                         modifier = Modifier
                             .background(Color.White)
                             .padding(32.dp)
                     )
                     if (openDialog) {
                         ContactSelectionDialog(
-                            contacts = listOf(),
-                            onContactSelected = { },
+                            contacts = contentUiState.contacts,
+                            onContactSelected = { contentViewModel.updateContact(it) },
                             onConfirm = { openDialog = false },
                             onDismiss = { openDialog = false }
                         )
@@ -104,27 +140,38 @@ fun ContentScreen(
                 }
                 ScreenName.Notifications -> {
                     NotificationScreen(
+                        readFallIncidents = contentUiState.readFallIncidents,
+                        unreadFallIncidents = contentUiState.unreadFallIncidents,
+                        onNotificationClick = {
+                            openNotificationDialog = it
+                            contentViewModel.updateFallIncident(it)
+                        },
                         modifier = Modifier
                             .background(Color.White)
                             .padding(32.dp)
                     )
-                    if (openDialog) {
+                    openNotificationDialog?.let {
                         NotificationDialog(
-                            fallIncident = FallIncident("Brother Nawaf"),
-                            onConfirm = { openDialog = false },
-                            onDismiss = { openDialog = false }
+                            fallIncident = it,
+                            onConfirm = { openNotificationDialog = null },
+                            onDismiss = { openNotificationDialog = null }
                         )
                     }
                 }
                 ScreenName.Contacts -> {
                     ContactsScreen(
+                        contacts = contentUiState.contacts,
+                        onDeleteClick = { contentViewModel.deleteContact(it) },
                         modifier = Modifier
                             .background(Color.White)
                             .padding(32.dp)
                     )
                     if (openDialog) {
                         AddContactDialog(
-                            onConfirm = { openDialog = false },
+                            onConfirm = {
+                                contentViewModel.insertContact(it)
+                                openDialog = false
+                            },
                             onDismiss = { openDialog = false }
                         )
                     }

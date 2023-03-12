@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.atick.storage.room.data.JetpackDatabase
+import dev.atick.storage.room.data.SafetyDatabase
 import javax.inject.Singleton
 
 @Module(
@@ -17,5 +17,7 @@ object DaoModule {
 
     @Singleton
     @Provides
-    fun provideJetpackDao(jetpackDatabase: JetpackDatabase) = jetpackDatabase.getJetpackDao()
+    fun provideSafetyDao(
+        safetyDatabase: SafetyDatabase
+    ) = safetyDatabase.getSafetyDao()
 }
