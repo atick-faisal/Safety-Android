@@ -39,6 +39,9 @@ buildscript {
         preferences_version = "1.0.0"
         serializer_version = "1.5.0"
 
+        // ... Location
+        play_services_version = "21.0.1"
+
         // ... Dagger-Hilt
         hilt_version = "2.45"
 
