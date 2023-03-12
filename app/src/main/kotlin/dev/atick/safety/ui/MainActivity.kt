@@ -33,7 +33,8 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
         }
-        permissions.add(Manifest.permission.CAMERA)
+        permissions.add(Manifest.permission.READ_SMS)
+        permissions.add(Manifest.permission.SEND_SMS)
         checkForPermissions(permissions)
     }
 }
