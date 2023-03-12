@@ -16,11 +16,8 @@ interface SafetyDao {
     @Delete
     suspend fun deleteContact(contact: Contact)
 
-    @Query("SELECT phone FROM contacts")
-    suspend fun getEmergencyNumbers(): List<String>
-
     @Query("SELECT * FROM contacts WHERE phone = :phone LIMIT 1")
-    suspend fun getContactFromPhone(phone: String): Contact
+    suspend fun getContactFromPhone(phone: String): Contact?
 
     @Query("SELECT * FROM contacts")
     fun getContacts(): Flow<List<Contact>>
@@ -28,7 +25,7 @@ interface SafetyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFallIncident(fallIncident: FallIncident)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllFallIncidents(fallIncidents: List<FallIncident>)
 
     @Update
