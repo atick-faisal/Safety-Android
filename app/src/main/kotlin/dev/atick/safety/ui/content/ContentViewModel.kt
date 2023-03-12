@@ -10,6 +10,7 @@ import dev.atick.safety.data.contacts.Contact
 import dev.atick.safety.repository.content.ContentRepository
 import dev.atick.safety.ui.content.state.ContentUiState
 import dev.atick.safety.ui.content.state.ScreenName
+import dev.atick.sms.data.SmsDataSource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
@@ -18,6 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ContentViewModel @Inject constructor(
+    smsDataSource: SmsDataSource,
     private val contentRepository: ContentRepository
 ) : BaseViewModel<ContentUiState>() {
 
@@ -38,11 +40,9 @@ class ContentViewModel @Inject constructor(
     }.stateInDelayed(ContentUiState(), viewModelScope)
 
     init {
-        insertFallIncident(
-            FallIncident(
-                victimName = "Atick Faisal"
-            )
-        )
+        viewModelScope.launch {
+            smsDataSource.syncEmergencyMessages()
+        }
     }
 
     fun setCurrentScreen(currentScreen: ScreenName) {

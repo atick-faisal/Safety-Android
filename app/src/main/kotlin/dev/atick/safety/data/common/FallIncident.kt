@@ -22,21 +22,19 @@ data class FallIncident(
 
     fun asRoomFallIncident(): RoomFallIncident {
         return RoomFallIncident(
-            id = id,
             victimName = victimName,
             highRisk = highRisk,
             readByUser = readByUser,
-            timeStamp = timeStamp
+            timestamp = timeStamp
         )
     }
 }
 
 fun RoomFallIncident.asFallIncident(): FallIncident {
     return FallIncident(
-        id = id,
         victimName = victimName,
         highRisk = highRisk,
         readByUser = readByUser,
-        timeStamp = timeStamp
+        timeStamp = timestamp
     )
 }
