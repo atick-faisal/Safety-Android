@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         }
         permissions.add(Manifest.permission.READ_SMS)
         permissions.add(Manifest.permission.SEND_SMS)
+        permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
         checkForPermissions(permissions)
     }
 }
