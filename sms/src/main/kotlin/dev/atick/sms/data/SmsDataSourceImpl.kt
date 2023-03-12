@@ -2,6 +2,7 @@ package dev.atick.sms.data
 
 import android.content.ContentResolver
 import android.provider.Telephony
+import dev.atick.sms.config.Config
 import dev.atick.storage.room.data.SafetyDao
 import dev.atick.storage.room.data.models.FallIncident
 import javax.inject.Inject
@@ -11,23 +12,34 @@ class SmsDataSourceImpl @Inject constructor(
     private val contentResolver: ContentResolver
 ) : SmsDataSource {
     override suspend fun syncEmergencyMessages() {
-        val emergencyNumbers = safetyDao.getEmergencyNumbers()
         val fallIncidents = mutableListOf<FallIncident>()
 
-        val projection = arrayOf(Telephony.Sms.ADDRESS, Telephony.Sms.DATE)
-        val selection = StringBuilder()
+        val projection = arrayOf(
+            Telephony.Sms.ADDRESS,
+            Telephony.Sms.BODY,
+            Telephony.Sms.DATE
+        )
+
+        /* ... QUERY ONLY SAVED CONTACTS
+        val emergencyNumbers = safetyDao.getEmergencyNumbers()
+        val emergencyNumbersQuery = StringBuilder()
         emergencyNumbers.forEachIndexed { idx, phone ->
-            selection.append("\'")
-            selection.append(phone)
-            selection.append("\'")
+            emergencyNumbersQuery.append("\'")
+            emergencyNumbersQuery.append(phone)
+            emergencyNumbersQuery.append("\'")
             if (idx < emergencyNumbers.size - 1)
-                selection.append(",")
+                emergencyNumbersQuery.append(",")
         }
+        */
+
+        val selectionQuery =
+            // "${Telephony.Sms.ADDRESS} IN (${emergencyNumbersQuery})" +
+            "${Telephony.Sms.BODY} like '%${Config.SAFETY_SMS_IDENTIFIER}%'"
 
         val cursor = contentResolver.query(
             Telephony.Sms.CONTENT_URI,
             projection,
-            "${Telephony.Sms.ADDRESS} IN (${selection})",
+            selectionQuery,
             null,
             null
         )
@@ -43,12 +55,13 @@ class SmsDataSourceImpl @Inject constructor(
                     val contact = safetyDao.getContactFromPhone(phone)
                     fallIncidents.add(
                         FallIncident(
-                            victimName = contact.name,
-                            highRisk = contact.highRisk,
+                            victimName = contact?.name ?: "Unknown",
+                            highRisk = contact?.highRisk ?: false,
                             readByUser = false,
                             timestamp = timestamp
                         )
                     )
+
                     cursor.moveToNext()
                 }
             }
