@@ -99,7 +99,6 @@ dependencies {
     implementation(project(path: ":storage:room"))
     implementation(project(path: ":storage:preferences"))
     implementation(project(path: ":sms"))
-    implementation(project(path: ":location"))
 
     // ... Dagger-Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")

@@ -22,6 +22,9 @@ interface SafetyDao {
     @Query("SELECT * FROM contacts")
     fun getContacts(): Flow<List<Contact>>
 
+    @Query("SELECT phone FROM contacts WHERE selected = true")
+    suspend fun getSelectedPhoneNumbers(): List<String>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFallIncident(fallIncident: FallIncident)
 
