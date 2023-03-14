@@ -20,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.atick.safety.data.common.FallIncident
+import dev.atick.safety.data.devices.SafetyDevice
 import dev.atick.safety.ui.content.contacts.ContactsScreen
 import dev.atick.safety.ui.content.contacts.components.AddContactDialog
 import dev.atick.safety.ui.content.devices.DevicesScreen
@@ -34,6 +35,7 @@ import kotlinx.coroutines.launch
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun ContentScreen(
+    onDeviceClick: (SafetyDevice) -> Unit,
     contentViewModel: ContentViewModel = viewModel()
 ) {
     val contentUiState by contentViewModel.contentUiState.collectAsState()
@@ -182,6 +184,7 @@ fun ContentScreen(
                 ScreenName.Devices -> {
                     DevicesScreen(
                         pairedDevices = contentUiState.pairedDevices,
+                        onDeviceClick = onDeviceClick,
                         modifier = Modifier
                             .background(Color.White)
                             .padding(32.dp)
@@ -189,7 +192,11 @@ fun ContentScreen(
                     if (openDialog) {
                         AddDeviceDialog(
                             devices = contentUiState.scannedDevices,
-                            onDeviceClick = { openDialog = false },
+                            onDeviceClick = {
+                                onDeviceClick(it)
+                                contentViewModel.stopDiscovery()
+                                openDialog = false
+                            },
                             onDismiss = {
                                 contentViewModel.stopDiscovery()
                                 openDialog = false

@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface BtDataSource {
     fun getDeviceState(): StateFlow<DeviceState>
-    fun listenForIncomingMessages(address: String): Flow<BtMessage>
-    suspend fun close()
+    fun listenForIncomingMessages(address: String): Flow<Result<BtMessage>>
+    fun close()
 }

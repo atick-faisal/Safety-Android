@@ -6,12 +6,15 @@ import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.content.Context
 import android.content.IntentFilter
+import com.orhanobut.logger.Logger
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.atick.bluetooth.data.models.BtMessage
 import dev.atick.bluetooth.data.models.DeviceState
 import dev.atick.bluetooth.receiver.ConnectionStateReceiver
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.util.*
 import javax.inject.Inject
 
@@ -21,13 +24,13 @@ class BtDataSourceImpl @Inject constructor(
 ) : BtDataSource {
 
     companion object {
-        const val BT_UUID = "27b7d1da-08c7-4505-a6d1-2459987e5e2d"
+        const val BT_UUID = "00001101-0000-1000-8000-00805F9B34FB"
     }
 
     private var bluetoothSocket: BluetoothSocket? = null
 
-    private val connectionStateReceiver = ConnectionStateReceiver {
-        _deviceState.update { it }
+    private val connectionStateReceiver = ConnectionStateReceiver { state ->
+        _deviceState.update { state }
     }
 
     private val _deviceState = MutableStateFlow(DeviceState())
@@ -43,32 +46,36 @@ class BtDataSourceImpl @Inject constructor(
     }
 
     @SuppressLint("MissingPermission")
-    override fun listenForIncomingMessages(address: String): Flow<BtMessage> {
+    override fun listenForIncomingMessages(address: String): Flow<Result<BtMessage>> {
         return flow {
-            val buffer = ByteArray(1024)
             bluetoothSocket?.close()
             bluetoothSocket = bluetoothAdapter?.getRemoteDevice(address)
-                ?.createRfcommSocketToServiceRecord(UUID.fromString(BT_UUID))
-            bluetoothSocket?.connect()
+                ?.createInsecureRfcommSocketToServiceRecord(UUID.fromString(BT_UUID))
             try {
                 bluetoothSocket?.let { socket ->
                     socket.connect()
+                    val inputStream = socket.inputStream
+                    val bufferedReader = BufferedReader(InputStreamReader(inputStream))
                     while (socket.isConnected) {
-                        val byteCount = socket.inputStream.read(buffer)
-                        val message = buffer.decodeToString(endIndex = byteCount)
-                        emit(BtMessage(message = message))
-                    }
+                        if (bufferedReader.ready()) {
+                            val message = bufferedReader.readLine()
 
+                            emit(Result.success(BtMessage(message = message)))
+                        }
+                    }
                 }
             } catch (exception: Exception) {
                 bluetoothSocket?.close()
-                exception.printStackTrace()
-                throw exception
+                emit(Result.failure<BtMessage>(exception))
             }
-        }.onCompletion { close() }.flowOn(Dispatchers.IO)
+        }.onCompletion {
+            bluetoothSocket?.close()
+            bluetoothSocket = null
+        }.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun close() {
+    override fun close() {
+        Logger.d("CLOSING ... ")
         context.unregisterReceiver(connectionStateReceiver)
         bluetoothSocket?.close()
         bluetoothSocket = null

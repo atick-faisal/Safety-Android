@@ -14,6 +14,7 @@ import dev.atick.safety.ui.content.devices.components.DeviceCard
 @Composable
 fun DevicesScreen(
     pairedDevices: List<SafetyDevice>,
+    onDeviceClick: (SafetyDevice) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -22,7 +23,7 @@ fun DevicesScreen(
     ) {
         item { Text(text = "Paired Devices", fontSize = 24.sp) }
         items(pairedDevices) { safetyDevice ->
-            DeviceCard(safetyDevice = safetyDevice, onClick = { })
+            DeviceCard(safetyDevice = safetyDevice, onClick = onDeviceClick)
         }
     }
 }
