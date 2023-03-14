@@ -1,7 +1,8 @@
 package dev.atick.safety.ui.content.devices
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,16 +13,16 @@ import dev.atick.safety.ui.content.devices.components.DeviceCard
 
 @Composable
 fun DevicesScreen(
+    pairedDevices: List<SafetyDevice>,
     modifier: Modifier = Modifier
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(text = "Paired Devices", fontSize = 24.sp)
-        DeviceCard(safetyDevice = SafetyDevice("", "ESP32"), onClick = { })
-        DeviceCard(safetyDevice = SafetyDevice("", "ESP32"), onClick = { })
-        DeviceCard(safetyDevice = SafetyDevice("", "ESP32"), onClick = { })
-        DeviceCard(safetyDevice = SafetyDevice("", "ESP32"), onClick = { })
+        item { Text(text = "Paired Devices", fontSize = 24.sp) }
+        items(pairedDevices) { safetyDevice ->
+            DeviceCard(safetyDevice = safetyDevice, onClick = { })
+        }
     }
 }

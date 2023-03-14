@@ -103,7 +103,10 @@ fun ContentScreen(
                     }
                 }
                 ScreenName.Devices -> {
-                    FloatingActionButton(onClick = { openDialog = true }) {
+                    FloatingActionButton(onClick = {
+                        contentViewModel.startDiscovery()
+                        openDialog = true
+                    }) {
                         Icon(imageVector = Icons.Default.Add, contentDescription = "add")
                     }
                 }
@@ -178,15 +181,19 @@ fun ContentScreen(
                 }
                 ScreenName.Devices -> {
                     DevicesScreen(
+                        pairedDevices = contentUiState.pairedDevices,
                         modifier = Modifier
                             .background(Color.White)
                             .padding(32.dp)
                     )
                     if (openDialog) {
                         AddDeviceDialog(
-                            devices = listOf(),
+                            devices = contentUiState.scannedDevices,
                             onDeviceClick = { openDialog = false },
-                            onDismiss = { openDialog = false }
+                            onDismiss = {
+                                contentViewModel.stopDiscovery()
+                                openDialog = false
+                            }
                         )
                     }
                 }

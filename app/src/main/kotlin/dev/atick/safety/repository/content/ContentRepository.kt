@@ -2,6 +2,7 @@ package dev.atick.safety.repository.content
 
 import dev.atick.safety.data.common.FallIncident
 import dev.atick.safety.data.contacts.Contact
+import dev.atick.safety.data.devices.SafetyDevice
 import kotlinx.coroutines.flow.Flow
 
 interface ContentRepository {
@@ -14,4 +15,8 @@ interface ContentRepository {
     fun getRecentFallIncident(): Flow<FallIncident?>
     fun getUnreadFallIncidents(): Flow<List<FallIncident>>
     fun getReadFallIncidents(): Flow<List<FallIncident>>
+    fun getPairedDevices(): Flow<List<SafetyDevice>>
+    fun getScannedDevices(): Flow<List<SafetyDevice>>
+    fun startDiscovery(): Result<Unit>
+    fun stopDiscovery(): Result<Unit>
 }
