@@ -34,7 +34,7 @@
     <string name="name_required">Name *</string>
     <string name="name_hint">e.g. John Doe</string>
     <string name="name">Name</string>
-    <string name="phone_required">Phone (Including Country Code) *</string>
+    <string name="phone_required">Phone *</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="phone_hint">e.g. +974</string>

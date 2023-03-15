@@ -23,10 +23,10 @@ fun ContactCard(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = if (contact.highRisk) MaterialTheme.colorScheme.error
-            else MaterialTheme.colorScheme.surface,
+            else MaterialTheme.colorScheme.surfaceVariant,
             contentColor = if (contact.highRisk)
                 MaterialTheme.colorScheme.onError
-            else MaterialTheme.colorScheme.onSurface
+            else MaterialTheme.colorScheme.onSurfaceVariant
         )
     ) {
         Row(
