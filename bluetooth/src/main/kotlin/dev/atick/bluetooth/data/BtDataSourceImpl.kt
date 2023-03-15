@@ -32,7 +32,7 @@ class BtDataSourceImpl @Inject constructor(
 
     override fun getDeviceState(): Flow<DeviceState> {
         return callbackFlow {
-            trySend(DeviceState())
+            trySend(DeviceState(isConnected = bluetoothSocket?.isConnected ?: false))
             val connectionStateReceiver = ConnectionStateReceiver { deviceState ->
                 Logger.d("DEVICE STATE: ${deviceState.isConnected}")
                 trySend(deviceState)
