@@ -3,6 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
     id("kotlin-kapt")
 }
 
@@ -75,8 +77,7 @@ android {
                 "-opt-in=kotlin.RequiresOptIn",
                 // ... Enable experimental coroutines APIs, including Flow
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-opt-in=kotlinx.coroutines.FlowPreview",
-                "-opt-in=kotlin.Experimental",
+                "-opt-in=kotlinx.coroutines.FlowPreview"
         ]
     }
     buildFeatures {
@@ -101,9 +102,15 @@ dependencies {
     implementation(project(path: ":sms"))
     implementation(project(path: ":bluetooth"))
 
-    // ... Lifecycle
+    // ... Lifecycle Services
     // ... (https://developer.android.com/jetpack/androidx/releases/lifecycle)
     implementation("androidx.lifecycle:lifecycle-service:$lifecycle_version")
+
+    // ... Crashlytics
+    // ... (https://firebase.google.com/docs/crashlytics/get-started?platform=android)
+    implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
 
     // ... Dagger-Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
