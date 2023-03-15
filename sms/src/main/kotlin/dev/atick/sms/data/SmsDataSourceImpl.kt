@@ -41,7 +41,7 @@ class SmsDataSourceImpl @Inject constructor(
             projection,
             selectionQuery,
             null,
-            null
+            "${Telephony.Sms.DATE} DESC"
         )
 
         cursor?.let {

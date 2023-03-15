@@ -99,6 +99,11 @@ dependencies {
     implementation(project(path: ":storage:room"))
     implementation(project(path: ":storage:preferences"))
     implementation(project(path: ":sms"))
+    implementation(project(path: ":bluetooth"))
+
+    // ... Lifecycle
+    // ... (https://developer.android.com/jetpack/androidx/releases/lifecycle)
+    implementation("androidx.lifecycle:lifecycle-service:$lifecycle_version")
 
     // ... Dagger-Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")

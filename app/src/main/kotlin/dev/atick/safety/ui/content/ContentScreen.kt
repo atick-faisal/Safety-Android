@@ -20,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.atick.safety.data.common.FallIncident
+import dev.atick.safety.data.devices.SafetyDevice
 import dev.atick.safety.ui.content.contacts.ContactsScreen
 import dev.atick.safety.ui.content.contacts.components.AddContactDialog
 import dev.atick.safety.ui.content.devices.DevicesScreen
@@ -34,6 +35,8 @@ import kotlinx.coroutines.launch
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun ContentScreen(
+    onDeviceClick: (SafetyDevice) -> Unit,
+    onCloseConnectionClick: () -> Unit,
     contentViewModel: ContentViewModel = viewModel()
 ) {
     val contentUiState by contentViewModel.contentUiState.collectAsState()
@@ -69,7 +72,9 @@ fun ContentScreen(
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Home) }) {
                     Icon(imageVector = Icons.Outlined.Home, contentDescription = "home")
                 }
-                IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Notifications) }) {
+                IconButton(
+                    onClick = { contentViewModel.setCurrentScreen(ScreenName.Notifications) }
+                ) {
                     Icon(
                         imageVector = Icons.Outlined.Notifications,
                         contentDescription = "notification"
@@ -103,8 +108,13 @@ fun ContentScreen(
                     }
                 }
                 ScreenName.Devices -> {
-                    FloatingActionButton(onClick = { openDialog = true }) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                    if (!contentUiState.connectedDevice.connected) {
+                        FloatingActionButton(onClick = {
+                            contentViewModel.startDiscovery()
+                            openDialog = true
+                        }) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                        }
                     }
                 }
             }
@@ -120,10 +130,14 @@ fun ContentScreen(
                 ScreenName.Home -> {
                     HomeScreen(
                         nFallIncidents = contentUiState.unreadFallIncidents.size,
+                        isDeviceConnected = contentUiState.connectedDevice.connected,
                         recentFallIncident = contentUiState.recentFallIncident,
                         onAlarmClick = { openDialog = true },
                         onSeeAllClick = {
                             contentViewModel.setCurrentScreen(ScreenName.Notifications)
+                        },
+                        onDeviceClick = {
+                            contentViewModel.setCurrentScreen(ScreenName.Devices)
                         },
                         modifier = Modifier
                             .background(Color.White)
@@ -178,15 +192,29 @@ fun ContentScreen(
                 }
                 ScreenName.Devices -> {
                     DevicesScreen(
+                        isDeviceConnected = contentUiState.connectedDevice.connected,
+                        pairedDevices = contentUiState.pairedDevices,
+                        onDeviceClick = onDeviceClick,
+                        onCloseConnectionClick = {
+                            contentViewModel.closeConnection()
+                            onCloseConnectionClick()
+                        },
                         modifier = Modifier
                             .background(Color.White)
                             .padding(32.dp)
                     )
                     if (openDialog) {
                         AddDeviceDialog(
-                            devices = listOf(),
-                            onDeviceClick = { openDialog = false },
-                            onDismiss = { openDialog = false }
+                            devices = contentUiState.scannedDevices,
+                            onDeviceClick = {
+                                onDeviceClick(it)
+                                contentViewModel.stopDiscovery()
+                                openDialog = false
+                            },
+                            onDismiss = {
+                                contentViewModel.stopDiscovery()
+                                openDialog = false
+                            }
                         )
                     }
                 }

@@ -13,7 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-
 rootProject.name = "Safety"
 include(":app")
 include(":core:ui")
@@ -23,3 +22,4 @@ include(":storage:room")
 include(":storage:preferences")
 include(":sms")
 include(":location")
+include(":bluetooth")
