@@ -61,7 +61,7 @@ fun HomeScreen(
                     .weight(1F)
                     .fillMaxHeight(),
                 nFallIncidents = nFallIncidents,
-                onClick = onDeviceClick
+                onClick = onSeeAllClick
             )
 
             DeviceInfoCard(
