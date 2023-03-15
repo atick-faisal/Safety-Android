@@ -28,7 +28,7 @@ interface SafetyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFallIncident(fallIncident: FallIncident)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAllFallIncidents(fallIncidents: List<FallIncident>)
 
     @Update
