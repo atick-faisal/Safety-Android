@@ -65,7 +65,7 @@ fun ContentScreen(
                     .fillMaxWidth()
                     .height(64.dp)
                     .shadow(8.dp)
-                    .background(Color.White),
+                    .background(MaterialTheme.colorScheme.surface),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -140,7 +140,7 @@ fun ContentScreen(
                             contentViewModel.setCurrentScreen(ScreenName.Devices)
                         },
                         modifier = Modifier
-                            .background(Color.White)
+//                            .background(Color.White)
                             .padding(32.dp)
                     )
                     if (openDialog) {
@@ -161,7 +161,7 @@ fun ContentScreen(
                             contentViewModel.updateFallIncident(it)
                         },
                         modifier = Modifier
-                            .background(Color.White)
+//                            .background(Color.White)
                             .padding(32.dp)
                     )
                     openNotificationDialog?.let {
@@ -177,7 +177,7 @@ fun ContentScreen(
                         contacts = contentUiState.contacts,
                         onDeleteClick = { contentViewModel.deleteContact(it) },
                         modifier = Modifier
-                            .background(Color.White)
+//                            .background(Color.White)
                             .padding(32.dp)
                     )
                     if (openDialog) {
@@ -200,7 +200,7 @@ fun ContentScreen(
                             onCloseConnectionClick()
                         },
                         modifier = Modifier
-                            .background(Color.White)
+//                            .background(Color.White)
                             .padding(32.dp)
                     )
                     if (openDialog) {

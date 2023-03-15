@@ -8,7 +8,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -59,7 +58,7 @@ fun HomeScreen(
                 modifier = Modifier
                     .weight(1F)
                     .fillMaxHeight(),
-                color = Color(0xFFFF7D7D),
+                color = MaterialTheme.colorScheme.errorContainer,
                 shape = RoundedCornerShape(16.dp),
                 onClick = onSeeAllClick
             ) {
@@ -67,10 +66,9 @@ fun HomeScreen(
                     modifier = Modifier.padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "$nFallIncidents", fontSize = 56.sp, color = Color.White)
+                    Text(text = "$nFallIncidents", fontSize = 56.sp)
                     Text(
                         text = "New Falls This Week",
-                        color = Color.White,
                         textAlign = TextAlign.Center
                     )
                 }
@@ -87,13 +85,12 @@ fun HomeScreen(
 
         Surface(
             shape = RoundedCornerShape(16.dp),
-            color = Color(0xFFE373FF),
+            color = MaterialTheme.colorScheme.error,
             onClick = onAlarmClick
         ) {
             Text(
                 text = "Alarm",
                 fontSize = 32.sp,
-                color = Color.White,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),

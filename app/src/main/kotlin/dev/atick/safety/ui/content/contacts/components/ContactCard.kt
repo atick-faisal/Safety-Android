@@ -8,10 +8,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.atick.safety.data.contacts.Contact
@@ -21,16 +19,14 @@ fun ContactCard(
     contact: Contact,
     onDeleteClick: (Contact) -> Unit
 ) {
-    val cardColor = remember {
-        if (contact.highRisk) Color(0xFFFF9292)
-        else Color(0xFFCECECE)
-    }
-
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = cardColor,
-            contentColor = Color(0xFF4E4E4E)
+            containerColor = if (contact.highRisk) MaterialTheme.colorScheme.error
+            else MaterialTheme.colorScheme.surface,
+            contentColor = if (contact.highRisk)
+                MaterialTheme.colorScheme.onError
+            else MaterialTheme.colorScheme.onSurface
         )
     ) {
         Row(

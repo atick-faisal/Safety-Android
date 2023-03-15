@@ -5,13 +5,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Verified
+import androidx.compose.material.icons.outlined.GppBad
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -24,7 +23,8 @@ fun DeviceInfoCard(
 ) {
     Surface(
         modifier = modifier,
-        color = if (isDeviceConnected) Color(0xFF54C1FF) else MaterialTheme.colorScheme.error,
+        color = if (isDeviceConnected) MaterialTheme.colorScheme.primary
+        else MaterialTheme.colorScheme.tertiaryContainer,
         shape = RoundedCornerShape(16.dp),
         onClick = onDeviceClick
     ) {
@@ -33,16 +33,14 @@ fun DeviceInfoCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                imageVector = if (isDeviceConnected) Icons.Filled.Verified else Icons.Default.Cancel,
+                imageVector = if (isDeviceConnected) Icons.Filled.Verified else Icons.Outlined.GppBad,
                 contentDescription = "connection",
                 Modifier
                     .size(64.dp)
                     .weight(1F),
-                tint = Color.White
             )
             Text(
                 text = if (isDeviceConnected) "Safety Bracelet Connected" else "Safety Bracelet Disconnected",
-                color = Color.White,
                 textAlign = TextAlign.Center
             )
         }
