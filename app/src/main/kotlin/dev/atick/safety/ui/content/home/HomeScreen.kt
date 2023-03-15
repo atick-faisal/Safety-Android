@@ -4,8 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.TaskAlt
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,15 +17,18 @@ import androidx.compose.ui.unit.sp
 import dev.atick.safety.R
 import dev.atick.safety.data.common.FallIncident
 import dev.atick.safety.ui.common.components.NotificationCard
+import dev.atick.safety.ui.content.home.components.DeviceInfoCard
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     nFallIncidents: Int,
+    isDeviceConnected: Boolean,
     recentFallIncident: FallIncident?,
     onAlarmClick: () -> Unit,
     onSeeAllClick: () -> Unit,
+    onDeviceClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -60,7 +61,7 @@ fun HomeScreen(
                     .fillMaxHeight(),
                 color = Color(0xFFFF7D7D),
                 shape = RoundedCornerShape(16.dp),
-                onClick = {}
+                onClick = onSeeAllClick
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -75,33 +76,13 @@ fun HomeScreen(
                 }
             }
 
-            Surface(
+            DeviceInfoCard(
                 modifier = Modifier
                     .weight(1F)
                     .fillMaxHeight(),
-                color = Color(0xFF54C1FF),
-                shape = RoundedCornerShape(16.dp),
-                onClick = {}
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.TaskAlt,
-                        contentDescription = "connection",
-                        Modifier
-                            .size(64.dp)
-                            .weight(1F),
-                        tint = Color.White
-                    )
-                    Text(
-                        text = "Safety bracelet Connected",
-                        color = Color.White,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
+                isDeviceConnected = isDeviceConnected,
+                onDeviceClick = onDeviceClick
+            )
         }
 
         Surface(

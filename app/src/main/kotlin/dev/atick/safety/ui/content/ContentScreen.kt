@@ -130,10 +130,14 @@ fun ContentScreen(
                 ScreenName.Home -> {
                     HomeScreen(
                         nFallIncidents = contentUiState.unreadFallIncidents.size,
+                        isDeviceConnected = contentUiState.connectedDevice.connected,
                         recentFallIncident = contentUiState.recentFallIncident,
                         onAlarmClick = { openDialog = true },
                         onSeeAllClick = {
                             contentViewModel.setCurrentScreen(ScreenName.Notifications)
+                        },
+                        onDeviceClick = {
+                            contentViewModel.setCurrentScreen(ScreenName.Devices)
                         },
                         modifier = Modifier
                             .background(Color.White)

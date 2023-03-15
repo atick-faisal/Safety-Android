@@ -3,7 +3,7 @@ package dev.atick.safety.ui.content.devices.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Verified
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,11 +39,11 @@ fun ConnectedDevice(
                 contentDescription = "Connected"
             )
             Icon(
-                imageVector = Icons.Filled.Check,
+                imageVector = Icons.Filled.Verified,
                 tint = Color.Green,
                 contentDescription = "Connected",
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(56.dp)
                     .align(Alignment.BottomEnd)
             )
         }
