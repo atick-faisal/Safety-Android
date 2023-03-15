@@ -6,19 +6,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.atick.core.extensions.stateInDelayed
 import dev.atick.core.ui.base.BaseViewModel
 import dev.atick.core.ui.utils.UiText
+import dev.atick.safety.R
 import dev.atick.safety.data.common.FallIncident
 import dev.atick.safety.data.contacts.Contact
 import dev.atick.safety.repository.content.ContentRepository
 import dev.atick.safety.ui.content.state.ContentUiState
 import dev.atick.safety.ui.content.state.ScreenName
-import dev.atick.sms.data.SmsDataSource
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ContentViewModel @Inject constructor(
-    smsDataSource: SmsDataSource,
     private val contentRepository: ContentRepository
 ) : BaseViewModel<ContentUiState>() {
 
@@ -51,10 +51,26 @@ class ContentViewModel @Inject constructor(
         )
     }.stateInDelayed(ContentUiState(), viewModelScope)
 
+    private var syncSmsJob: Job? = null
+    private var sendSmsJob: Job? = null
+    private var insertContactJob: Job? = null
+    private var updateContactJob: Job? = null
+    private var deleteContactJob: Job? = null
+    private var updateFallJob: Job? = null
 
     init {
-        viewModelScope.launch {
-            smsDataSource.syncEmergencyMessages()
+        if (syncSmsJob == null) {
+            syncSmsJob = viewModelScope.launch {
+                val result = contentRepository.syncEmergencyMessages()
+                if (result.isFailure) {
+                    _contentUiState.update {
+                        it.copy(
+                            toastMessage = UiText.DynamicString("${result.exceptionOrNull()}")
+                        )
+                    }
+                }
+                syncSmsJob = null
+            }
         }
     }
 
@@ -63,77 +79,70 @@ class ContentViewModel @Inject constructor(
     }
 
     fun insertContact(contact: Contact) {
-        viewModelScope.launch {
+        if (insertContactJob != null) return
+        insertContactJob = viewModelScope.launch {
             val result = contentRepository.insertContact(contact)
             if (result.isSuccess) {
                 _contentUiState.update {
-                    it.copy(toastMessage = UiText.DynamicString("Contact Added!"))
+                    it.copy(toastMessage = UiText.StringResource(R.string.contact_added))
                 }
             } else {
                 _contentUiState.update {
                     it.copy(toastMessage = UiText.DynamicString("${result.exceptionOrNull()}"))
                 }
             }
+            insertContactJob = null
         }
     }
 
     fun updateContact(contact: Contact) {
-        viewModelScope.launch {
+        if (updateContactJob != null) return
+        updateContactJob = viewModelScope.launch {
             val result = contentRepository.updateContact(contact)
             if (result.isSuccess) {
                 _contentUiState.update {
-                    it.copy(toastMessage = UiText.DynamicString("Contact Updated!"))
+                    it.copy(toastMessage = UiText.StringResource(R.string.marked_emergency))
                 }
             } else {
                 _contentUiState.update {
                     it.copy(toastMessage = UiText.DynamicString("${result.exceptionOrNull()}"))
                 }
             }
+            updateContactJob = null
         }
     }
 
     fun deleteContact(contact: Contact) {
+        if (deleteContactJob != null) return
         viewModelScope.launch {
             val result = contentRepository.deleteContact(contact)
             if (result.isSuccess) {
                 _contentUiState.update {
-                    it.copy(toastMessage = UiText.DynamicString("Contact Deleted!"))
+                    it.copy(toastMessage = UiText.StringResource(R.string.contact_deleted))
                 }
             } else {
                 _contentUiState.update {
                     it.copy(toastMessage = UiText.DynamicString("${result.exceptionOrNull()}"))
                 }
             }
-        }
-    }
-
-    private fun insertFallIncident(fallIncident: FallIncident) {
-        viewModelScope.launch {
-            val result = contentRepository.insertFallIncident(fallIncident)
-            if (result.isSuccess) {
-                _contentUiState.update {
-                    it.copy(toastMessage = UiText.DynamicString("Fall Added!"))
-                }
-            } else {
-                _contentUiState.update {
-                    it.copy(toastMessage = UiText.DynamicString("${result.exceptionOrNull()}"))
-                }
-            }
+            deleteContactJob = null
         }
     }
 
     fun updateFallIncident(fallIncident: FallIncident) {
-        viewModelScope.launch {
+        if (updateFallJob != null) return
+        updateFallJob = viewModelScope.launch {
             val result = contentRepository.updateFallIncident(fallIncident)
             if (result.isSuccess) {
                 _contentUiState.update {
-                    it.copy(toastMessage = UiText.DynamicString("Incident Marked As Read!"))
+                    it.copy(toastMessage = UiText.StringResource(R.string.fall_marked_read))
                 }
             } else {
                 _contentUiState.update {
                     it.copy(toastMessage = UiText.DynamicString("${result.exceptionOrNull()}"))
                 }
             }
+            updateFallJob = null
         }
     }
 
@@ -142,7 +151,7 @@ class ContentViewModel @Inject constructor(
         val result = contentRepository.startDiscovery()
         if (result.isSuccess) {
             _contentUiState.update {
-                it.copy(toastMessage = UiText.DynamicString("Scan Started!"))
+                it.copy(toastMessage = UiText.StringResource(R.string.scan_started))
             }
         } else {
             _contentUiState.update {
@@ -155,7 +164,7 @@ class ContentViewModel @Inject constructor(
         val result = contentRepository.stopDiscovery()
         if (result.isSuccess) {
             _contentUiState.update {
-                it.copy(toastMessage = UiText.DynamicString("Scan Stopped!"))
+                it.copy(toastMessage = UiText.StringResource(R.string.scan_stopped))
             }
         } else {
             _contentUiState.update {
@@ -168,7 +177,7 @@ class ContentViewModel @Inject constructor(
         val result = contentRepository.closeConnection()
         if (result.isSuccess) {
             _contentUiState.update {
-                it.copy(toastMessage = UiText.DynamicString("Please Wait. Closing Connection"))
+                it.copy(toastMessage = UiText.StringResource(R.string.closing_connection))
             }
         } else {
             _contentUiState.update {
@@ -177,9 +186,28 @@ class ContentViewModel @Inject constructor(
         }
     }
 
+    fun sendEmergencySmsToSelectedContacts() {
+        if (sendSmsJob != null) return
+        sendSmsJob = viewModelScope.launch {
+            val result = contentRepository.sendEmergencySmsToSelectedContacts()
+            if (result.isSuccess) {
+                _contentUiState.update {
+                    it.copy(toastMessage = UiText.StringResource(R.string.emergency_sms_sent))
+                }
+            } else {
+                _contentUiState.update {
+                    it.copy(toastMessage = UiText.DynamicString("${result.exceptionOrNull()}"))
+                }
+            }
+            sendSmsJob = null
+        }
+    }
+
     fun clearToastMessage() {
         _contentUiState.update { it.copy(toastMessage = null) }
     }
+
+    // ------------------ Flow Combine Extension ---------------------------
 
     private inline fun <T1, T2, T3, T4, T5, T6, T7, T8, R> combineAll(
         flow: Flow<T1>,

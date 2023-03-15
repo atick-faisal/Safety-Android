@@ -21,4 +21,6 @@ interface ContentRepository {
     fun startDiscovery(): Result<Unit>
     fun stopDiscovery(): Result<Unit>
     fun closeConnection(): Result<Unit>
+    suspend fun syncEmergencyMessages(): Result<Unit>
+    suspend fun sendEmergencySmsToSelectedContacts(): Result<Unit>
 }
