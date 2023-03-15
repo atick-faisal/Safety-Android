@@ -34,12 +34,12 @@ interface SafetyDao {
     @Update
     suspend fun updateFallIncident(fallIncident: FallIncident)
 
-    @Query("SELECT * FROM falls LIMIT 1")
+    @Query("SELECT * FROM falls ORDER BY timestamp DESC LIMIT 1")
     fun getRecentFallIncident(): Flow<FallIncident?>
 
-    @Query("SELECT * FROM falls WHERE read_by_user = false")
+    @Query("SELECT * FROM falls WHERE read_by_user = false ORDER BY timestamp DESC")
     fun getUnreadFallIncidents(): Flow<List<FallIncident>>
 
-    @Query("SELECT * FROM falls WHERE read_by_user = true")
+    @Query("SELECT * FROM falls WHERE read_by_user = true ORDER BY timestamp DESC")
     fun getReadFallIncidents(): Flow<List<FallIncident>>
 }

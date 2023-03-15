@@ -1,15 +1,13 @@
 package dev.atick.core.ui.extensions
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.webkit.MimeTypeMap
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -28,14 +26,15 @@ fun Context.isAllPermissionsGranted(permissions: List<String>): Boolean {
     return permissions.all { hasPermission(it) }
 }
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
+@SuppressLint("MissingPermission")
 fun Context.showNotification(
     notificationId: Int,
     notification: Notification
 ) {
-    with(NotificationManagerCompat.from(this)) {
-        notify(notificationId, notification)
+    if (hasPermission(Manifest.permission.POST_NOTIFICATIONS)) {
+        with(NotificationManagerCompat.from(this)) {
+            notify(notificationId, notification)
+        }
     }
 }
 
