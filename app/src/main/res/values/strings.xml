@@ -44,4 +44,8 @@
     <string name="discard">Discard</string>
     <string name="save">Save</string>
     <string name="notification_dot">Dot</string>
+    <string name="paired_devices">Paired Devices</string>
+    <string name="pair_device">Pair Device</string>
+    <string name="close_connection">Close Connection</string>
+    <string name="connected">Connected</string>
 </resources>

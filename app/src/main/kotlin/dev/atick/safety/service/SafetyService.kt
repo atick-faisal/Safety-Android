@@ -8,7 +8,6 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
-import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import dev.atick.bluetooth.data.BtDataSource
 import dev.atick.core.extensions.collectWithLifecycle
@@ -29,6 +28,7 @@ class SafetyService : LifecycleService() {
 
     companion object {
         const val PERSISTENT_NOTIFICATION_ID = 4007
+        const val DEVICE_ADDRESS_KEY = "dev.atick.safety.device.address"
         const val PERSISTENT_NOTIFICATION_CHANNEL_ID = "dev.atick.safety.persistent"
         const val ACTION_STOP_SERVICE = "dev.atick.safety.stop"
         const val STOP_SERVICE_REQUEST_CODE = 101
@@ -143,9 +143,7 @@ class SafetyService : LifecycleService() {
             return START_NOT_STICKY
         }
 
-        Logger.d("START SERVICE: ${intent?.getStringExtra("ADDRESS")}")
-
-        val address = intent?.getStringExtra("ADDRESS")
+        val address = intent?.getStringExtra(DEVICE_ADDRESS_KEY)
         address?.let {
             collectWithLifecycle(btDataSource.listenForIncomingMessages(address)) { result ->
                 if (result.isSuccess) {

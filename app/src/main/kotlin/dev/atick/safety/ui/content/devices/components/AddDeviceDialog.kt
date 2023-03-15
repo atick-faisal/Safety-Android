@@ -8,7 +8,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.atick.safety.R
 import dev.atick.safety.data.devices.SafetyDevice
 
 @Composable
@@ -20,11 +22,13 @@ fun AddDeviceDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "Pair Device")
+            Text(text = stringResource(R.string.pair_device))
         },
         text = {
             LazyColumn(
-                modifier = Modifier.fillMaxWidth().height(300.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(devices) { device ->
@@ -43,7 +47,7 @@ fun AddDeviceDialog(
                     contentColor = MaterialTheme.colorScheme.onError
                 )
             ) {
-                Text(text = "Cancel")
+                Text(text = stringResource(id = R.string.cancel))
             }
         }
     )

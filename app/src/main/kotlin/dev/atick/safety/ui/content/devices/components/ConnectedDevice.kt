@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,12 +35,12 @@ fun ConnectedDevice(
             Image(
                 modifier = Modifier.size(200.dp),
                 painter = painterResource(id = R.drawable.app_icon),
-                contentDescription = "Connected"
+                contentDescription = stringResource(R.string.connected)
             )
             Icon(
                 imageVector = Icons.Filled.Verified,
                 tint = MaterialTheme.colorScheme.primary,
-                contentDescription = "Connected",
+                contentDescription = stringResource(R.string.connected),
                 modifier = Modifier
                     .size(56.dp)
                     .align(Alignment.BottomEnd)
@@ -57,9 +58,12 @@ fun ConnectedDevice(
                 Modifier.padding(horizontal = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(imageVector = Icons.Default.Close, contentDescription = "close")
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = stringResource(R.string.close_connection)
+                )
                 Spacer(modifier = Modifier.width(8.dp))
-                Text(text = "Close Connection")
+                Text(text = stringResource(R.string.close_connection))
             }
         }
     }
