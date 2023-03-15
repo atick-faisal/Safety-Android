@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 fun ContentScreen(
     onDeviceClick: (SafetyDevice) -> Unit,
+    onCloseConnectionClick: () -> Unit,
     contentViewModel: ContentViewModel = viewModel()
 ) {
     val contentUiState by contentViewModel.contentUiState.collectAsState()
@@ -71,7 +72,9 @@ fun ContentScreen(
                 IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Home) }) {
                     Icon(imageVector = Icons.Outlined.Home, contentDescription = "home")
                 }
-                IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Notifications) }) {
+                IconButton(
+                    onClick = { contentViewModel.setCurrentScreen(ScreenName.Notifications) }
+                ) {
                     Icon(
                         imageVector = Icons.Outlined.Notifications,
                         contentDescription = "notification"
@@ -105,11 +108,13 @@ fun ContentScreen(
                     }
                 }
                 ScreenName.Devices -> {
-                    FloatingActionButton(onClick = {
-                        contentViewModel.startDiscovery()
-                        openDialog = true
-                    }) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                    if (!contentUiState.connectedDevice.connected) {
+                        FloatingActionButton(onClick = {
+                            contentViewModel.startDiscovery()
+                            openDialog = true
+                        }) {
+                            Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                        }
                     }
                 }
             }
@@ -183,8 +188,13 @@ fun ContentScreen(
                 }
                 ScreenName.Devices -> {
                     DevicesScreen(
+                        isDeviceConnected = contentUiState.connectedDevice.connected,
                         pairedDevices = contentUiState.pairedDevices,
                         onDeviceClick = onDeviceClick,
+                        onCloseConnectionClick = {
+                            contentViewModel.closeConnection()
+                            onCloseConnectionClick()
+                        },
                         modifier = Modifier
                             .background(Color.White)
                             .padding(32.dp)

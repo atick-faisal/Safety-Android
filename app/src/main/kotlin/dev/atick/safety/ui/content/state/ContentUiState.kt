@@ -15,7 +15,8 @@ data class ContentUiState(
     val unreadFallIncidents: List<FallIncident> = listOf(),
     val readFallIncidents: List<FallIncident> = listOf(),
     val pairedDevices: List<SafetyDevice> = listOf(),
-    val scannedDevices: List<SafetyDevice> = listOf()
+    val scannedDevices: List<SafetyDevice> = listOf(),
+    val connectedDevice: SafetyDevice = SafetyDevice("Unknown")
 ) : BaseUiState()
 
 sealed interface ScreenName {

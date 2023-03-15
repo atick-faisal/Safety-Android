@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.IntentFilter
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dev.atick.bluetooth.receiver.BtStateReceiver
 import dev.atick.bluetooth.receiver.FoundDeviceReceiver
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
@@ -19,14 +20,36 @@ class BtUtilsImpl @Inject constructor(
 
     private val foundDevices = mutableListOf<BluetoothDevice>()
 
-    override val isEnabled: Boolean
-        get() = bluetoothAdapter?.isEnabled ?: false
+    override val isBluetoothEnabled: Flow<Boolean>
+        get() = callbackFlow {
+            trySend(bluetoothAdapter?.isEnabled ?: false)
+            val btStateReceiver = BtStateReceiver { btState ->
+                trySend(btState)
+            }
+            context.registerReceiver(
+                btStateReceiver,
+                IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
+            )
+            awaitClose { context.unregisterReceiver(btStateReceiver) }
+        }
 
-    override fun pairedDevices(): Flow<List<BluetoothDevice>> {
-        return flowOf(bluetoothAdapter?.bondedDevices?.toList() ?: emptyList())
+    override fun getPairedDevices(): Flow<List<BluetoothDevice>> {
+        return callbackFlow {
+            trySend(bluetoothAdapter?.bondedDevices?.toList() ?: emptyList())
+            val btStateReceiver = BtStateReceiver { btState ->
+                if (btState) {
+                    trySend(bluetoothAdapter?.bondedDevices?.toList() ?: emptyList())
+                }
+            }
+            context.registerReceiver(
+                btStateReceiver,
+                IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
+            )
+            awaitClose { context.unregisterReceiver(btStateReceiver) }
+        }
     }
 
-    override fun scannedDevices(): Flow<List<BluetoothDevice>> {
+    override fun getScannedDevices(): Flow<List<BluetoothDevice>> {
         return callbackFlow {
             trySend(emptyList()) // ... Required to use flow.combine()
             val foundDeviceReceiver = FoundDeviceReceiver { device ->
@@ -36,7 +59,8 @@ class BtUtilsImpl @Inject constructor(
                 trySend(foundDevices.toList())
             }
             context.registerReceiver(
-                foundDeviceReceiver, IntentFilter(BluetoothDevice.ACTION_FOUND)
+                foundDeviceReceiver,
+                IntentFilter(BluetoothDevice.ACTION_FOUND)
             )
             awaitClose {
                 context.unregisterReceiver(foundDeviceReceiver)

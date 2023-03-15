@@ -9,6 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import dev.atick.bluetooth.utils.BtUtils
+import dev.atick.core.extensions.collectWithLifecycle
 import dev.atick.core.ui.extensions.checkForPermissions
 import dev.atick.core.ui.extensions.resultLauncher
 import dev.atick.safety.R
@@ -46,10 +47,12 @@ class MainActivity : AppCompatActivity() {
         //              ... Turn On Bluetooth ...
         // ------------------------------------------------------
         btLauncher = resultLauncher(onFailure = { finishAffinity() })
-        if (!btUtils.isEnabled) {
-            btLauncher.launch(
-                Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-            )
+        collectWithLifecycle(btUtils.isBluetoothEnabled) { enabled ->
+            if (!enabled) {
+                btLauncher.launch(
+                    Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                )
+            }
         }
     }
 }

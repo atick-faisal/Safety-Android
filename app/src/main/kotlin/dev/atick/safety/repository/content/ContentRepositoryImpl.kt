@@ -1,5 +1,6 @@
 package dev.atick.safety.repository.content
 
+import dev.atick.bluetooth.data.BtDataSource
 import dev.atick.bluetooth.utils.BtUtils
 import dev.atick.safety.data.common.FallIncident
 import dev.atick.safety.data.common.asFallIncident
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 class ContentRepositoryImpl @Inject constructor(
     private val safetyDao: SafetyDao,
-    private val btUtils: BtUtils
+    private val btUtils: BtUtils,
+    private val btDataSource: BtDataSource
 ) : ContentRepository {
     override suspend fun insertContact(contact: Contact): Result<Unit> {
         return try {
@@ -84,14 +86,20 @@ class ContentRepositoryImpl @Inject constructor(
     }
 
     override fun getPairedDevices(): Flow<List<SafetyDevice>> {
-        return btUtils.pairedDevices().map { devices ->
+        return btUtils.getPairedDevices().map { devices ->
             devices.map { it.asSafetyDevice() }
         }
     }
 
     override fun getScannedDevices(): Flow<List<SafetyDevice>> {
-        return btUtils.scannedDevices().map { devices ->
+        return btUtils.getScannedDevices().map { devices ->
             devices.map { it.asSafetyDevice() }
+        }
+    }
+
+    override fun getConnectedDevice(): Flow<SafetyDevice> {
+        return btDataSource.getDeviceState().map {
+            it.asSafetyDevice()
         }
     }
 
@@ -107,6 +115,15 @@ class ContentRepositoryImpl @Inject constructor(
     override fun stopDiscovery(): Result<Unit> {
         return try {
             btUtils.stopDiscovery()
+            Result.success(Unit)
+        } catch (exception: Exception) {
+            Result.failure(exception)
+        }
+    }
+
+    override fun closeConnection(): Result<Unit> {
+        return try {
+            btDataSource.close()
             Result.success(Unit)
         } catch (exception: Exception) {
             Result.failure(exception)

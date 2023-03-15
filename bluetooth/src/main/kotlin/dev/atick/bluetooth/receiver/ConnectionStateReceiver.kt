@@ -13,7 +13,6 @@ class ConnectionStateReceiver(
     private val onConnectionStateChange: (DeviceState) -> Unit
 ) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-
         val device = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent?.getParcelableExtra(
                 BluetoothDevice.EXTRA_DEVICE,

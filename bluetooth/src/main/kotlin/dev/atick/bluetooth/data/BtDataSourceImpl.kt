@@ -12,6 +12,7 @@ import dev.atick.bluetooth.data.models.BtMessage
 import dev.atick.bluetooth.data.models.DeviceState
 import dev.atick.bluetooth.receiver.ConnectionStateReceiver
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -29,20 +30,24 @@ class BtDataSourceImpl @Inject constructor(
 
     private var bluetoothSocket: BluetoothSocket? = null
 
-    private val connectionStateReceiver = ConnectionStateReceiver { state ->
-        _deviceState.update { state }
-    }
-
-    private val _deviceState = MutableStateFlow(DeviceState())
-    override fun getDeviceState(): StateFlow<DeviceState> {
-        return _deviceState.asStateFlow()
-    }
-
-    init {
-        context.registerReceiver(connectionStateReceiver, IntentFilter().apply {
-            addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
-            addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
-        })
+    override fun getDeviceState(): Flow<DeviceState> {
+        return callbackFlow {
+            trySend(DeviceState())
+            val connectionStateReceiver = ConnectionStateReceiver { deviceState ->
+                Logger.d("DEVICE STATE: ${deviceState.isConnected}")
+                trySend(deviceState)
+            }
+            context.registerReceiver(
+                connectionStateReceiver,
+                IntentFilter().apply {
+                    addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
+                    addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+                }
+            )
+            awaitClose {
+                context.unregisterReceiver(connectionStateReceiver)
+            }
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -76,7 +81,6 @@ class BtDataSourceImpl @Inject constructor(
 
     override fun close() {
         Logger.d("CLOSING ... ")
-        context.unregisterReceiver(connectionStateReceiver)
         bluetoothSocket?.close()
         bluetoothSocket = null
     }

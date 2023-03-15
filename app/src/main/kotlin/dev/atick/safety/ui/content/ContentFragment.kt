@@ -12,12 +12,18 @@ class ContentFragment : BaseFragment() {
 
     @Composable
     override fun ComposeUi() {
-        ContentScreen(::startSafetyService)
+        ContentScreen(::startSafetyService, ::stopSafetyService)
     }
 
     private fun startSafetyService(device: SafetyDevice) {
         val intent = Intent(requireContext(), SafetyService::class.java)
         intent.putExtra("ADDRESS", device.address)
+        requireContext().startService(intent)
+    }
+
+    private fun stopSafetyService() {
+        val intent = Intent(requireContext(), SafetyService::class.java)
+        intent.action = SafetyService.ACTION_STOP_SERVICE
         requireContext().startService(intent)
     }
 

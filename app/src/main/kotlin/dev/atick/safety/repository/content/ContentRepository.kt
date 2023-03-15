@@ -17,6 +17,8 @@ interface ContentRepository {
     fun getReadFallIncidents(): Flow<List<FallIncident>>
     fun getPairedDevices(): Flow<List<SafetyDevice>>
     fun getScannedDevices(): Flow<List<SafetyDevice>>
+    fun getConnectedDevice(): Flow<SafetyDevice>
     fun startDiscovery(): Result<Unit>
     fun stopDiscovery(): Result<Unit>
+    fun closeConnection(): Result<Unit>
 }

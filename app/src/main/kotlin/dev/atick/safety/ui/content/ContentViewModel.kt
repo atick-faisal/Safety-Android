@@ -30,21 +30,24 @@ class ContentViewModel @Inject constructor(
         contentRepository.getUnreadFallIncidents(),
         contentRepository.getReadFallIncidents(),
         contentRepository.getPairedDevices(),
-        contentRepository.getScannedDevices()
+        contentRepository.getScannedDevices(),
+        contentRepository.getConnectedDevice()
     ) { contentUiState,
         contacts,
         recentFallIncident,
         unreadFallIncidents,
         readFallIncidents,
         pairedDevices,
-        scannedDevices ->
+        scannedDevices,
+        connectedDevice ->
         contentUiState.copy(
             contacts = contacts,
             recentFallIncident = recentFallIncident,
             unreadFallIncidents = unreadFallIncidents,
             readFallIncidents = readFallIncidents,
             pairedDevices = pairedDevices,
-            scannedDevices = scannedDevices
+            scannedDevices = scannedDevices,
+            connectedDevice = connectedDevice
         )
     }.stateInDelayed(ContentUiState(), viewModelScope)
 
@@ -161,11 +164,24 @@ class ContentViewModel @Inject constructor(
         }
     }
 
+    fun closeConnection() {
+        val result = contentRepository.closeConnection()
+        if (result.isSuccess) {
+            _contentUiState.update {
+                it.copy(toastMessage = UiText.DynamicString("Please Wait. Closing Connection"))
+            }
+        } else {
+            _contentUiState.update {
+                it.copy(toastMessage = UiText.DynamicString("${result.exceptionOrNull()}"))
+            }
+        }
+    }
+
     fun clearToastMessage() {
         _contentUiState.update { it.copy(toastMessage = null) }
     }
 
-    private inline fun <T1, T2, T3, T4, T5, T6, T7, R> combineAll(
+    private inline fun <T1, T2, T3, T4, T5, T6, T7, T8, R> combineAll(
         flow: Flow<T1>,
         flow2: Flow<T2>,
         flow3: Flow<T3>,
@@ -173,7 +189,8 @@ class ContentViewModel @Inject constructor(
         flow5: Flow<T5>,
         flow6: Flow<T6>,
         flow7: Flow<T7>,
-        crossinline transform: suspend (T1, T2, T3, T4, T5, T6, T7) -> R
+        flow8: Flow<T8>,
+        crossinline transform: suspend (T1, T2, T3, T4, T5, T6, T7, T8) -> R
     ): Flow<R> {
         return combine(
             flow,
@@ -182,7 +199,8 @@ class ContentViewModel @Inject constructor(
             flow4,
             flow5,
             flow6,
-            flow7
+            flow7,
+            flow8
         ) { args: Array<*> ->
             @Suppress("UNCHECKED_CAST")
             transform(
@@ -193,6 +211,7 @@ class ContentViewModel @Inject constructor(
                 args[4] as T5,
                 args[5] as T6,
                 args[6] as T7,
+                args[7] as T8,
             )
         }
     }

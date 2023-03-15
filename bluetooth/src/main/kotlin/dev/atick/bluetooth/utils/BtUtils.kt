@@ -4,9 +4,9 @@ import android.bluetooth.BluetoothDevice
 import kotlinx.coroutines.flow.Flow
 
 interface BtUtils {
-    val isEnabled: Boolean
-    fun scannedDevices(): Flow<List<BluetoothDevice>>
-    fun pairedDevices(): Flow<List<BluetoothDevice>>
+    val isBluetoothEnabled: Flow<Boolean>
+    fun getScannedDevices(): Flow<List<BluetoothDevice>>
+    fun getPairedDevices(): Flow<List<BluetoothDevice>>
     fun startDiscovery()
     fun stopDiscovery()
 }

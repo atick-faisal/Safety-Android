@@ -27,7 +27,7 @@ class App : Application() {
             val notificationChannel = NotificationChannel(
                 SafetyService.PERSISTENT_NOTIFICATION_CHANNEL_ID,
                 "Safety Notification",
-                NotificationManager.IMPORTANCE_LOW
+                NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 description = "Continuously monitor Safety devices"
             }
