@@ -8,7 +8,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.atick.safety.R
 import dev.atick.safety.data.contacts.Contact
 
 @Composable
@@ -21,7 +23,7 @@ fun ContactSelectionDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "Select Contacts")
+            Text(text = stringResource(R.string.select_contacts))
         },
         text = {
             LazyColumn(
@@ -34,12 +36,12 @@ fun ContactSelectionDialog(
         },
         confirmButton = {
             Button(onClick = onConfirm) {
-                Text(text = "Send")
+                Text(text = stringResource(R.string.send))
             }
         },
         dismissButton = {
             OutlinedButton(onClick = onDismiss) {
-                Text(text = "Cancel")
+                Text(text = stringResource(R.string.cancel))
             }
         }
     )
