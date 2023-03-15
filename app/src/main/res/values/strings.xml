@@ -24,4 +24,9 @@
     <string name="select_contacts">Select Contacts</string>
     <string name="send">Send</string>
     <string name="cancel">Cancel</string>
+    <string name="notifications">Notifications</string>
+    <string name="unread">Unread</string>
+    <string name="read">Read</string>
+    <string name="alert">Alert</string>
+    <string name="ok">OK</string>
 </resources>

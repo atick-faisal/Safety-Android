@@ -7,8 +7,10 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.atick.safety.R
 import dev.atick.safety.data.common.FallIncident
 import dev.atick.safety.ui.common.components.NotificationCard
 
@@ -23,13 +25,13 @@ fun NotificationScreen(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        item { Text(text = "Notifications", fontSize = 24.sp) }
-        item { Text(text = "Unread", fontSize = 18.sp) }
+        item { Text(text = stringResource(R.string.notifications), fontSize = 24.sp) }
+        item { Text(text = stringResource(R.string.unread), fontSize = 18.sp) }
         items(unreadFallIncidents) { fallIncident ->
             NotificationCard(fallIncident = fallIncident, onClick = onNotificationClick)
         }
         item { Divider() }
-        item { Text(text = "Read", fontSize = 18.sp) }
+        item { Text(text = stringResource(R.string.read), fontSize = 18.sp) }
         items(readFallIncidents) { fallIncident ->
             NotificationCard(fallIncident = fallIncident, onClick = onNotificationClick)
         }
