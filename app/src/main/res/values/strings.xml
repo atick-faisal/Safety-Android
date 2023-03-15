@@ -29,4 +29,19 @@
     <string name="read">Read</string>
     <string name="alert">Alert</string>
     <string name="ok">OK</string>
+    <string name="contacts">Contacts</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="name_required">Name *</string>
+    <string name="name_hint">e.g. John Doe</string>
+    <string name="name">Name</string>
+    <string name="phone_required">Phone (Including Country Code) *</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="phone_hint">e.g. +974</string>
+    <string name="email_hint">e.g. someone@mail.com</string>
+    <string name="high_risk">High Risk</string>
+    <string name="add_to_emergency">Add to Emergency Contacts</string>
+    <string name="discard">Discard</string>
+    <string name="save">Save</string>
+    <string name="notification_dot">Dot</string>
 </resources>
