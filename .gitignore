@@ -93,3 +93,6 @@ lint/tmp/
 
 # metadata
 *-metadata.json
+
+# google-services
+google-services.json
