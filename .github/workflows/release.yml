@@ -1,61 +1,68 @@
-# https://proandroiddev.com/how-to-securely-build-and-sign-your-android-app-with-github-actions-ad5323452ce
-
-name: Release APK
+name: Minimal Android CI Workflow
 
 on:
   push:
+    branches:
+      - master
     tags:
-      - "v*.*.*"
+      - 'v*'
 
 jobs:
-  build:
-    name: Build
+  test:
+    name: Run Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - name: Decode Keystore
-        id: decode_keystore
-        uses: timheuer/base64-to-file@v1
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup JDK
+        uses: actions/setup-java@v1
         with:
-          fileName: 'key/key.jks'
-          encodedString: ${{ secrets.KEYSTORE }}
-      - uses: actions/checkout@v3
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
+          java-version: 1.8
+      - name: Run Tests
+        run: bash ./gradlew test --stacktrace
+  apk:
+    name: Generate APK
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup JDK
+        uses: actions/setup-java@v1
         with:
-          java-version: 11
-          distribution: 'temurin'
-          cache: gradle
-      - name: Make gradlew Executable
-        run: chmod +x ./gradlew
-      - name: Build APK Release
-        run: ./gradlew app:assembleRelease
-        env:
-          SIGNING_KEY_ALIAS: 'jetpack-key'
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          java-version: 1.8
+      - name: Build APK
+        run: bash ./gradlew assembleDebug --stacktrace
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v1
         with:
-          name: APK
-          path: app/build/outputs/apk/release/*.apk
-
+          name: apk
+          path: app/build/outputs/apk/debug/app-debug.apk
   release:
-    name: Release
-    needs: build
-    if: startsWith(github.ref, 'refs/tags/')
+    name: Release APK
+    needs: apk
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     steps:
-      - name: Download APK
-        uses: actions/download-artifact@v3
+      - name: Download APK from build
+        uses: actions/download-artifact@v1
         with:
-          - name: apk
-      -name: Create Release
+          name: apk
+      - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          body_path: ${{ github.workspace }}/CHANGELOG.md
-          files: apk/*.apk
-
-# https://github.com/softprops/action-gh-release/issues/236
-permissions:
-  contents: write
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+      - name: Upload Release APK
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: apk/app-debug.apk
+          asset_name: MensaApp.apk
+          asset_content_type: application/zip
