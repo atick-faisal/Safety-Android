@@ -48,4 +48,6 @@
     <string name="pair_device">Pair Device</string>
     <string name="close_connection">Close Connection</string>
     <string name="connected">Connected</string>
+    <string name="refresh">Refresh</string>
+    <string name="refreshing_notifications">Refreshing Notifications …</string>
 </resources>

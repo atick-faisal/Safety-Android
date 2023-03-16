@@ -96,7 +96,14 @@ fun ContentScreen(
         floatingActionButton = {
             when (contentUiState.currentScreen) {
                 ScreenName.Home -> {}
-                ScreenName.Notifications -> {}
+                ScreenName.Notifications -> {
+                    FloatingActionButton(onClick = contentViewModel::syncEmergencyMessages) {
+                        Icon(
+                            imageVector = Icons.Default.Refresh,
+                            contentDescription = stringResource(R.string.refresh)
+                        )
+                    }
+                }
                 ScreenName.Contacts -> {
                     FloatingActionButton(onClick = { openDialog = true }) {
                         Icon(

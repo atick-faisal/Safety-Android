@@ -17,7 +17,8 @@ class SmsDataSourceImpl @Inject constructor(
         val projection = arrayOf(
             Telephony.Sms.ADDRESS,
             Telephony.Sms.BODY,
-            Telephony.Sms.DATE
+            Telephony.Sms.DATE,
+            Telephony.Sms.TYPE
         )
 
         /* ... QUERY ONLY SAVED CONTACTS
@@ -34,7 +35,8 @@ class SmsDataSourceImpl @Inject constructor(
 
         val selectionQuery =
             // "${Telephony.Sms.ADDRESS} IN (${emergencyNumbersQuery})" +
-            "${Telephony.Sms.BODY} like '%${Config.SAFETY_SMS_IDENTIFIER}%'"
+            "${Telephony.Sms.BODY} like '%${Config.SAFETY_SMS_IDENTIFIER}%' " +
+                "AND ${Telephony.Sms.TYPE} = ${Telephony.Sms.MESSAGE_TYPE_INBOX}"
 
         val cursor = contentResolver.query(
             Telephony.Sms.CONTENT_URI,
@@ -55,7 +57,7 @@ class SmsDataSourceImpl @Inject constructor(
                     val contact = safetyDao.getContactFromPhone(phone)
                     fallIncidents.add(
                         FallIncident(
-                            victimName = contact?.name ?: "Unknown",
+                            victimName = contact?.name ?: phone,
                             highRisk = contact?.highRisk ?: false,
                             readByUser = false,
                             timestamp = timestamp
