@@ -59,19 +59,7 @@ class ContentViewModel @Inject constructor(
     private var updateFallJob: Job? = null
 
     init {
-        if (syncSmsJob == null) {
-            syncSmsJob = viewModelScope.launch {
-                val result = contentRepository.syncEmergencyMessages()
-                if (result.isFailure) {
-                    _contentUiState.update {
-                        it.copy(
-                            toastMessage = UiText.DynamicString("${result.exceptionOrNull()}")
-                        )
-                    }
-                }
-                syncSmsJob = null
-            }
-        }
+        syncEmergencyMessages()
     }
 
     fun setCurrentScreen(currentScreen: ScreenName) {
@@ -183,6 +171,21 @@ class ContentViewModel @Inject constructor(
             _contentUiState.update {
                 it.copy(toastMessage = UiText.DynamicString("${result.exceptionOrNull()}"))
             }
+        }
+    }
+
+    fun syncEmergencyMessages() {
+        if (syncSmsJob != null) return
+        syncSmsJob = viewModelScope.launch {
+            val result = contentRepository.syncEmergencyMessages()
+            if (result.isFailure) {
+                _contentUiState.update {
+                    it.copy(
+                        toastMessage = UiText.DynamicString("${result.exceptionOrNull()}")
+                    )
+                }
+            }
+            syncSmsJob = null
         }
     }
 
