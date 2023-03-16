@@ -50,4 +50,5 @@
     <string name="connected">Connected</string>
     <string name="refresh">Refresh</string>
     <string name="refreshing_notifications">Refreshing Notifications …</string>
+    <string name="toggle_alarm">Toggle Alarm</string>
 </resources>

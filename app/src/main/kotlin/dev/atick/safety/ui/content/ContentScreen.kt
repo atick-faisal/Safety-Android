@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 fun ContentScreen(
     onDeviceClick: (SafetyDevice) -> Unit,
     onCloseConnectionClick: () -> Unit,
+    onPlayAlarmSoundClick: (Boolean) -> Unit,
     contentViewModel: ContentViewModel = viewModel()
 ) {
     val contentUiState by contentViewModel.contentUiState.collectAsState()
@@ -157,7 +158,11 @@ fun ContentScreen(
                                 contentViewModel.sendEmergencySmsToSelectedContacts()
                                 openDialog = false
                             },
-                            onDismiss = { openDialog = false }
+                            onDismiss = {
+                                openDialog = false
+                                onPlayAlarmSoundClick(false)
+                            },
+                            onPlayAlarmSoundClick = onPlayAlarmSoundClick
                         )
                     }
                 }
