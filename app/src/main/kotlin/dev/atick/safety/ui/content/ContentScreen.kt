@@ -148,7 +148,9 @@ fun ContentScreen(
                         onDeviceClick = {
                             contentViewModel.setCurrentScreen(ScreenName.Devices)
                         },
-                        modifier = Modifier.padding(32.dp)
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(top = 32.dp)
                     )
                     if (openDialog) {
                         ContactSelectionDialog(
@@ -174,7 +176,9 @@ fun ContentScreen(
                             openNotificationDialog = it
                             contentViewModel.updateFallIncident(it)
                         },
-                        modifier = Modifier.padding(32.dp)
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(top = 32.dp)
                     )
                     openNotificationDialog?.let {
                         NotificationDialog(
@@ -188,7 +192,9 @@ fun ContentScreen(
                     ContactsScreen(
                         contacts = contentUiState.contacts,
                         onDeleteClick = { contentViewModel.deleteContact(it) },
-                        modifier = Modifier.padding(32.dp)
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(top = 32.dp)
                     )
                     if (openDialog) {
                         AddContactDialog(
@@ -209,7 +215,9 @@ fun ContentScreen(
                             contentViewModel.closeConnection()
                             onCloseConnectionClick()
                         },
-                        modifier = Modifier.padding(32.dp)
+                        modifier = Modifier
+                            .padding(horizontal = 32.dp)
+                            .padding(top = 32.dp)
                     )
                     if (openDialog) {
                         AddDeviceDialog(

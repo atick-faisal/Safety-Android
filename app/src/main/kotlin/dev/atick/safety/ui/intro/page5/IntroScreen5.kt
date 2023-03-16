@@ -62,7 +62,7 @@ fun IntroScreen5(
             contentDescription = "icon",
             modifier = Modifier
                 .fillMaxWidth(0.9F)
-                .weight(0.5F)
+                .weight(0.3F)
         )
 
         Column(
