@@ -1,15 +1,18 @@
 package dev.atick.safety.ui.content.home.components
 
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import dev.atick.safety.R
 import dev.atick.safety.data.contacts.Contact
 
@@ -17,18 +20,52 @@ import dev.atick.safety.data.contacts.Contact
 fun ContactSelectionDialog(
     contacts: List<Contact>,
     onContactSelected: (Contact) -> Unit,
+    onPlayAlarmSoundClick: (Boolean) -> Unit,
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {
+    var isAlarmPlaying by remember { mutableStateOf(false) }
+
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = {
-            Text(text = stringResource(R.string.select_contacts))
-        },
         text = {
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                item {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            isAlarmPlaying = !isAlarmPlaying
+                            onPlayAlarmSoundClick(isAlarmPlaying)
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = if (isAlarmPlaying) MaterialTheme.colorScheme.error
+                            else MaterialTheme.colorScheme.primary,
+                            contentColor = if (isAlarmPlaying) MaterialTheme.colorScheme.onError
+                            else MaterialTheme.colorScheme.onPrimary,
+                        )
+                    ) {
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 8.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Icon(
+                                imageVector = if (isAlarmPlaying) Icons.Default.Close
+                                else Icons.Outlined.Notifications,
+                                contentDescription = stringResource(R.string.toggle_alarm)
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = if (isAlarmPlaying) "STOP ALARM SOUND" else "PLAY ALARM SOUND")
+                        }
+                    }
+                }
+                item { Divider() }
+                item { Text(text = stringResource(R.string.select_contacts), fontSize = 18.sp) }
                 items(contacts) { contact ->
                     ContactCard(contact = contact, onSelect = onContactSelected)
                 }
