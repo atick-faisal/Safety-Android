@@ -17,7 +17,7 @@ class ContentFragment : BaseFragment() {
 
     private fun startSafetyService(device: SafetyDevice) {
         val intent = Intent(requireContext(), SafetyService::class.java)
-        intent.putExtra("ADDRESS", device.address)
+        intent.putExtra(SafetyService.DEVICE_ADDRESS_KEY, device.address)
         requireContext().startService(intent)
     }
 

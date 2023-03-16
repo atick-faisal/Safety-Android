@@ -4,23 +4,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.Contacts
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Watch
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dev.atick.safety.R
 import dev.atick.safety.data.common.FallIncident
 import dev.atick.safety.data.devices.SafetyDevice
+import dev.atick.safety.ui.content.components.BottomNavBarOption
 import dev.atick.safety.ui.content.contacts.ContactsScreen
 import dev.atick.safety.ui.content.contacts.components.AddContactDialog
 import dev.atick.safety.ui.content.devices.DevicesScreen
@@ -69,33 +67,30 @@ fun ContentScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Home) }) {
-                    Icon(imageVector = Icons.Outlined.Home, contentDescription = "home")
-                }
-                IconButton(
-                    onClick = { contentViewModel.setCurrentScreen(ScreenName.Notifications) }
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Notifications,
-                        contentDescription = "notification"
-                    )
-                    if (contentUiState.unreadFallIncidents.isNotEmpty()) {
-                        Icon(
-                            imageVector = Icons.Default.Circle,
-                            contentDescription = "dot",
-                            modifier = Modifier
-                                .padding(bottom = 16.dp, start = 16.dp)
-                                .size(8.dp),
-                            tint = Color.Red
-                        )
-                    }
-                }
-                IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Contacts) }) {
-                    Icon(imageVector = Icons.Outlined.Contacts, contentDescription = "contacts")
-                }
-                IconButton(onClick = { contentViewModel.setCurrentScreen(ScreenName.Devices) }) {
-                    Icon(imageVector = Icons.Outlined.Watch, contentDescription = "device")
-                }
+                BottomNavBarOption(
+                    screenName = ScreenName.Home,
+                    currentScreenName = contentUiState.currentScreen,
+                    showNotificationDot = false,
+                    onClick = contentViewModel::setCurrentScreen
+                )
+                BottomNavBarOption(
+                    screenName = ScreenName.Notifications,
+                    currentScreenName = contentUiState.currentScreen,
+                    showNotificationDot = contentUiState.unreadFallIncidents.isNotEmpty(),
+                    onClick = contentViewModel::setCurrentScreen
+                )
+                BottomNavBarOption(
+                    screenName = ScreenName.Contacts,
+                    currentScreenName = contentUiState.currentScreen,
+                    showNotificationDot = false,
+                    onClick = contentViewModel::setCurrentScreen
+                )
+                BottomNavBarOption(
+                    screenName = ScreenName.Devices,
+                    currentScreenName = contentUiState.currentScreen,
+                    showNotificationDot = false,
+                    onClick = contentViewModel::setCurrentScreen
+                )
             }
         },
         floatingActionButton = {
@@ -104,7 +99,10 @@ fun ContentScreen(
                 ScreenName.Notifications -> {}
                 ScreenName.Contacts -> {
                     FloatingActionButton(onClick = { openDialog = true }) {
-                        Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = stringResource(R.string.add)
+                        )
                     }
                 }
                 ScreenName.Devices -> {
@@ -113,7 +111,10 @@ fun ContentScreen(
                             contentViewModel.startDiscovery()
                             openDialog = true
                         }) {
-                            Icon(imageVector = Icons.Default.Add, contentDescription = "add")
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = stringResource(R.string.add)
+                            )
                         }
                     }
                 }
@@ -139,15 +140,16 @@ fun ContentScreen(
                         onDeviceClick = {
                             contentViewModel.setCurrentScreen(ScreenName.Devices)
                         },
-                        modifier = Modifier
-//                            .background(Color.White)
-                            .padding(32.dp)
+                        modifier = Modifier.padding(32.dp)
                     )
                     if (openDialog) {
                         ContactSelectionDialog(
                             contacts = contentUiState.contacts,
                             onContactSelected = { contentViewModel.updateContact(it) },
-                            onConfirm = { openDialog = false },
+                            onConfirm = {
+                                contentViewModel.sendEmergencySmsToSelectedContacts()
+                                openDialog = false
+                            },
                             onDismiss = { openDialog = false }
                         )
                     }
@@ -160,9 +162,7 @@ fun ContentScreen(
                             openNotificationDialog = it
                             contentViewModel.updateFallIncident(it)
                         },
-                        modifier = Modifier
-//                            .background(Color.White)
-                            .padding(32.dp)
+                        modifier = Modifier.padding(32.dp)
                     )
                     openNotificationDialog?.let {
                         NotificationDialog(
@@ -176,9 +176,7 @@ fun ContentScreen(
                     ContactsScreen(
                         contacts = contentUiState.contacts,
                         onDeleteClick = { contentViewModel.deleteContact(it) },
-                        modifier = Modifier
-//                            .background(Color.White)
-                            .padding(32.dp)
+                        modifier = Modifier.padding(32.dp)
                     )
                     if (openDialog) {
                         AddContactDialog(
@@ -199,9 +197,7 @@ fun ContentScreen(
                             contentViewModel.closeConnection()
                             onCloseConnectionClick()
                         },
-                        modifier = Modifier
-//                            .background(Color.White)
-                            .padding(32.dp)
+                        modifier = Modifier.padding(32.dp)
                     )
                     if (openDialog) {
                         AddDeviceDialog(

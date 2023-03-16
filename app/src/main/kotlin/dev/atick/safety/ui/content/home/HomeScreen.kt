@@ -4,11 +4,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -17,9 +20,8 @@ import dev.atick.safety.R
 import dev.atick.safety.data.common.FallIncident
 import dev.atick.safety.ui.common.components.NotificationCard
 import dev.atick.safety.ui.content.home.components.DeviceInfoCard
+import dev.atick.safety.ui.content.home.components.FallInfoCard
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     nFallIncidents: Int,
@@ -40,12 +42,12 @@ fun HomeScreen(
                 .height(160.dp)
                 .align(Alignment.CenterHorizontally),
             painter = painterResource(id = R.drawable.app_icon),
-            contentDescription = "icon"
+            contentDescription = stringResource(R.string.app_icon)
         )
 
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = "Safety App",
+            text = stringResource(R.string.safety_app),
             fontSize = 48.sp,
             textAlign = TextAlign.Center
         )
@@ -54,32 +56,20 @@ fun HomeScreen(
             modifier = Modifier.height(IntrinsicSize.Max),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Surface(
+            FallInfoCard(
                 modifier = Modifier
                     .weight(1F)
                     .fillMaxHeight(),
-                color = MaterialTheme.colorScheme.errorContainer,
-                shape = RoundedCornerShape(16.dp),
+                nFallIncidents = nFallIncidents,
                 onClick = onSeeAllClick
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "$nFallIncidents", fontSize = 56.sp)
-                    Text(
-                        text = "New Falls This Week",
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
+            )
 
             DeviceInfoCard(
                 modifier = Modifier
                     .weight(1F)
                     .fillMaxHeight(),
                 isDeviceConnected = isDeviceConnected,
-                onDeviceClick = onDeviceClick
+                onClick = onDeviceClick
             )
         }
 
@@ -89,7 +79,7 @@ fun HomeScreen(
             onClick = onAlarmClick
         ) {
             Text(
-                text = "Alarm",
+                text = stringResource(R.string.alarm),
                 fontSize = 32.sp,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -98,12 +88,16 @@ fun HomeScreen(
             )
         }
 
-        Text(text = "Recent Falls", fontSize = 20.sp, fontWeight = FontWeight.SemiBold)
+        Text(
+            text = stringResource(R.string.recent_falls),
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold
+        )
 
         recentFallIncident?.let { NotificationCard(fallIncident = recentFallIncident) {} }
 
         Text(
-            text = "See All",
+            text = stringResource(R.string.see_all),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier

@@ -8,6 +8,8 @@ import dev.atick.safety.data.contacts.Contact
 import dev.atick.safety.data.contacts.asContact
 import dev.atick.safety.data.devices.SafetyDevice
 import dev.atick.safety.data.devices.asSafetyDevice
+import dev.atick.sms.data.SmsDataSource
+import dev.atick.sms.utils.SmsHelper
 import dev.atick.storage.room.data.SafetyDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -16,7 +18,9 @@ import javax.inject.Inject
 class ContentRepositoryImpl @Inject constructor(
     private val safetyDao: SafetyDao,
     private val btUtils: BtUtils,
-    private val btDataSource: BtDataSource
+    private val btDataSource: BtDataSource,
+    private val smsDataSource: SmsDataSource,
+    private val smsHelper: SmsHelper
 ) : ContentRepository {
     override suspend fun insertContact(contact: Contact): Result<Unit> {
         return try {
@@ -124,6 +128,24 @@ class ContentRepositoryImpl @Inject constructor(
     override fun closeConnection(): Result<Unit> {
         return try {
             btDataSource.close()
+            Result.success(Unit)
+        } catch (exception: Exception) {
+            Result.failure(exception)
+        }
+    }
+
+    override suspend fun syncEmergencyMessages(): Result<Unit> {
+        return try {
+            smsDataSource.syncEmergencyMessages()
+            Result.success(Unit)
+        } catch (exception: Exception) {
+            Result.failure(exception)
+        }
+    }
+
+    override suspend fun sendEmergencySmsToSelectedContacts(): Result<Unit> {
+        return try {
+            smsHelper.sendEmergencySmsToSelectedContacts()
             Result.success(Unit)
         } catch (exception: Exception) {
             Result.failure(exception)

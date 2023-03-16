@@ -10,9 +10,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import dev.atick.safety.R
 import dev.atick.safety.data.contacts.Contact
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,23 +27,24 @@ fun AddContactDialog(
     var phone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf<String?>(null) }
     var highRisk by remember { mutableStateOf(false) }
+    var selected by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "Add Contact")
+            Text(text = stringResource(R.string.add_contact))
         },
         text = {
             Column {
                 OutlinedTextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text(text = "Name *") },
-                    placeholder = { Text(text = "e.g. John Doe") },
+                    label = { Text(text = stringResource(R.string.name_required)) },
+                    placeholder = { Text(text = stringResource(R.string.name_hint)) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Person,
-                            contentDescription = "name"
+                            contentDescription = stringResource(R.string.name)
                         )
                     },
                     modifier = Modifier.fillMaxWidth()
@@ -49,12 +52,12 @@ fun AddContactDialog(
                 OutlinedTextField(
                     value = phone,
                     onValueChange = { phone = it },
-                    label = { Text(text = "Phone *") },
-                    placeholder = { Text(text = "e.g. +974") },
+                    label = { Text(text = stringResource(R.string.phone_required)) },
+                    placeholder = { Text(text = stringResource(R.string.phone_hint)) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Phone,
-                            contentDescription = "phone"
+                            contentDescription = stringResource(R.string.phone)
                         )
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(
@@ -65,12 +68,12 @@ fun AddContactDialog(
                 OutlinedTextField(
                     value = email ?: "",
                     onValueChange = { email = it },
-                    label = { Text(text = "Email") },
-                    placeholder = { Text(text = "e.g. someone@mail.com") },
+                    label = { Text(text = stringResource(R.string.email)) },
+                    placeholder = { Text(text = stringResource(R.string.email_hint)) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Email,
-                            contentDescription = "email"
+                            contentDescription = stringResource(R.string.email)
                         )
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(
@@ -78,14 +81,23 @@ fun AddContactDialog(
                     ),
                     modifier = Modifier.fillMaxWidth()
                 )
+                Spacer(modifier = Modifier.height(8.dp))
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Checkbox(checked = highRisk, onCheckedChange = { highRisk = it })
-                    Text(text = "High Risk", fontWeight = FontWeight.Bold)
+                    Text(text = stringResource(R.string.high_risk), fontWeight = FontWeight.Bold)
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Checkbox(checked = selected, onCheckedChange = { selected = it })
+                    Text(
+                        text = stringResource(R.string.add_to_emergency),
+                        fontWeight = FontWeight.Bold
+                    )
                 }
             }
         },
@@ -97,12 +109,13 @@ fun AddContactDialog(
                             name = name,
                             phone = phone,
                             email = email,
-                            highRisk = highRisk
+                            highRisk = highRisk,
+                            selected = selected
                         )
                     )
                 }
             ) {
-                Text("Save")
+                Text(stringResource(R.string.save))
             }
         },
         dismissButton = {
@@ -113,7 +126,7 @@ fun AddContactDialog(
                     contentColor = MaterialTheme.colorScheme.onError
                 )
             ) {
-                Text("Discard")
+                Text(stringResource(R.string.discard))
             }
         }
     )
