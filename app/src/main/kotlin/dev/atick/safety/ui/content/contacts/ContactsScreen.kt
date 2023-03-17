@@ -30,6 +30,9 @@ fun ContactsScreen(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            if (contacts.isEmpty()) {
+                item { Text(text = stringResource(id = R.string.no_contact_found)) }
+            }
             items(contacts) { contact ->
                 ContactCard(contact = contact, onDeleteClick = onDeleteClick)
             }

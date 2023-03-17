@@ -30,6 +30,9 @@ fun DevicesScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item { Text(text = stringResource(R.string.paired_devices), fontSize = 24.sp) }
+            if (pairedDevices.isEmpty()) {
+                item { Text(text = stringResource(id = R.string.no_paired_devices)) }
+            }
             items(pairedDevices) { safetyDevice ->
                 DeviceCard(safetyDevice = safetyDevice, onClick = onDeviceClick)
             }

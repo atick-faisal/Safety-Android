@@ -27,11 +27,17 @@ fun NotificationScreen(
     ) {
         item { Text(text = stringResource(R.string.notifications), fontSize = 24.sp) }
         item { Text(text = stringResource(R.string.unread), fontSize = 18.sp) }
+        if (unreadFallIncidents.isEmpty()) {
+            item { Text(text = stringResource(id = R.string.nothing_to_show)) }
+        }
         items(unreadFallIncidents) { fallIncident ->
             NotificationCard(fallIncident = fallIncident, onClick = onNotificationClick)
         }
         item { Divider() }
         item { Text(text = stringResource(R.string.read), fontSize = 18.sp) }
+        if (readFallIncidents.isEmpty()) {
+            item { Text(text = stringResource(id = R.string.nothing_to_show)) }
+        }
         items(readFallIncidents) { fallIncident ->
             NotificationCard(fallIncident = fallIncident, onClick = onNotificationClick)
         }
