@@ -1,7 +1,5 @@
-# FIRST RELEASE
-### Features
-- Connect and sync with safety devices
-- Create emergency contacts
-- Send alert to emergency contacts
-- Emergency message with location
-- Runs in the background
+# v1.0.1
+### Features Updates and Bug Fixes
+- Fix "FALL" database query bug
+- Fix Bluetooth permission issue
+- Enhance UX

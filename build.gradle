@@ -6,8 +6,8 @@ buildscript {
         // X = Major Update
         // Y = Minor Update
         // Z = Patch / Fix
-        version_name = "1.0.0"
-        version_code = 1
+        version_name = "1.0.1"
+        version_code = 3
 
         // ... Project
         agp_version = "7.4.2"
