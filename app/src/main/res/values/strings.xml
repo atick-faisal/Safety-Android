@@ -51,4 +51,8 @@
     <string name="refresh">Refresh</string>
     <string name="refreshing_notifications">Refreshing Notifications …</string>
     <string name="toggle_alarm">Toggle Alarm</string>
+    <string name="no_contact_found">No Contact Found</string>
+    <string name="nothing_to_show">Nothing to Show</string>
+    <string name="no_paired_devices">No Paired Devices Found</string>
+    <string name="scanning">Scanning for Devices. Please Wait.</string>
 </resources>

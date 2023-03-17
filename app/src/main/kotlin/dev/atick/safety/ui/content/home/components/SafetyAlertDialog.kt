@@ -17,7 +17,7 @@ import dev.atick.safety.R
 import dev.atick.safety.data.contacts.Contact
 
 @Composable
-fun ContactSelectionDialog(
+fun SafetyAlertDialog(
     contacts: List<Contact>,
     onContactSelected: (Contact) -> Unit,
     onPlayAlarmSoundClick: (Boolean) -> Unit,
@@ -66,6 +66,8 @@ fun ContactSelectionDialog(
                 }
                 item { Divider() }
                 item { Text(text = stringResource(R.string.select_contacts), fontSize = 18.sp) }
+                if (contacts.isEmpty())
+                    item { Text(text = stringResource(R.string.no_contact_found)) }
                 items(contacts) { contact ->
                     ContactCard(contact = contact, onSelect = onContactSelected)
                 }

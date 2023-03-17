@@ -24,7 +24,7 @@ import dev.atick.safety.ui.content.contacts.components.AddContactDialog
 import dev.atick.safety.ui.content.devices.DevicesScreen
 import dev.atick.safety.ui.content.devices.components.AddDeviceDialog
 import dev.atick.safety.ui.content.home.HomeScreen
-import dev.atick.safety.ui.content.home.components.ContactSelectionDialog
+import dev.atick.safety.ui.content.home.components.SafetyAlertDialog
 import dev.atick.safety.ui.content.notifications.NotificationScreen
 import dev.atick.safety.ui.content.notifications.components.NotificationDialog
 import dev.atick.safety.ui.content.state.ScreenName
@@ -153,7 +153,7 @@ fun ContentScreen(
                             .padding(top = 32.dp)
                     )
                     if (openDialog) {
-                        ContactSelectionDialog(
+                        SafetyAlertDialog(
                             contacts = contentUiState.contacts,
                             onContactSelected = { contentViewModel.updateContact(it) },
                             onConfirm = {

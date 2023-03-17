@@ -96,7 +96,11 @@ fun HomeScreen(
             fontWeight = FontWeight.SemiBold
         )
 
-        recentFallIncident?.let { NotificationCard(fallIncident = recentFallIncident) {} }
+        if (recentFallIncident == null) {
+            Text(text = stringResource(R.string.nothing_to_show))
+        } else {
+            NotificationCard(fallIncident = recentFallIncident) {}
+        }
 
         Text(
             text = stringResource(R.string.see_all),

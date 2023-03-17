@@ -31,6 +31,9 @@ fun AddDeviceDialog(
                     .height(300.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                if (devices.isEmpty()) {
+                    item { Text(text = stringResource(id = R.string.scanning)) }
+                }
                 items(devices) { device ->
                     DeviceCard(
                         safetyDevice = device,
