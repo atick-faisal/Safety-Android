@@ -22,8 +22,8 @@ interface SafetyDao {
     @Query("SELECT * FROM contacts")
     fun getContacts(): Flow<List<Contact>>
 
-    @Query("SELECT phone FROM contacts WHERE selected = true")
-    suspend fun getSelectedPhoneNumbers(): List<String>
+    @Query("SELECT phone FROM contacts WHERE selected = :selected")
+    suspend fun getSelectedPhoneNumbers(selected: Boolean = true): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertFallIncident(fallIncident: FallIncident)
@@ -37,9 +37,9 @@ interface SafetyDao {
     @Query("SELECT * FROM falls ORDER BY timestamp DESC LIMIT 1")
     fun getRecentFallIncident(): Flow<FallIncident?>
 
-    @Query("SELECT * FROM falls WHERE read_by_user = false ORDER BY timestamp DESC")
-    fun getUnreadFallIncidents(): Flow<List<FallIncident>>
+    @Query("SELECT * FROM falls WHERE read_by_user = :read ORDER BY timestamp DESC")
+    fun getUnreadFallIncidents(read: Boolean = false): Flow<List<FallIncident>>
 
-    @Query("SELECT * FROM falls WHERE read_by_user = true ORDER BY timestamp DESC")
-    fun getReadFallIncidents(): Flow<List<FallIncident>>
+    @Query("SELECT * FROM falls WHERE read_by_user = :read ORDER BY timestamp DESC")
+    fun getReadFallIncidents(read: Boolean = true): Flow<List<FallIncident>>
 }
