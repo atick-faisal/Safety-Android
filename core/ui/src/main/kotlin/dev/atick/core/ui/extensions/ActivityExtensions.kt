@@ -40,10 +40,13 @@ fun ComponentActivity.permissionLauncher(
     return resultCallback
 }
 
-fun ComponentActivity.checkForPermissions(permissions: List<String>) {
+fun ComponentActivity.checkForPermissions(permissions: List<String>, onSuccess: () -> Unit) {
     if (isAllPermissionsGranted(permissions)) return
     val launcher = this.permissionLauncher(
-        onSuccess = { Logger.i("PERMISSION GRANTED!") },
+        onSuccess = {
+            Logger.i("PERMISSION GRANTED!")
+            onSuccess()
+        },
         onFailure = {
             showToast("PLEASE ALLOW ALL PERMISSIONS")
             openPermissionSettings()

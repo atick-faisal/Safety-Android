@@ -11,6 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.atick.bluetooth.utils.BtUtils
 import dev.atick.core.extensions.collectWithLifecycle
 import dev.atick.core.ui.extensions.checkForPermissions
+import dev.atick.core.ui.extensions.isAllPermissionsGranted
 import dev.atick.core.ui.extensions.resultLauncher
 import dev.atick.safety.R
 import javax.inject.Inject
@@ -42,13 +43,18 @@ class MainActivity : AppCompatActivity() {
         permissions.add(Manifest.permission.SEND_SMS)
         permissions.add(Manifest.permission.ACCESS_COARSE_LOCATION)
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION)
-        checkForPermissions(permissions)
+
+        checkForPermissions(permissions) {
+            btLauncher.launch(
+                Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            )
+        }
 
         //              ... Turn On Bluetooth ...
         // ------------------------------------------------------
         btLauncher = resultLauncher(onFailure = { finishAffinity() })
         collectWithLifecycle(btUtils.isBluetoothEnabled) { enabled ->
-            if (!enabled) {
+            if (!enabled && isAllPermissionsGranted(permissions)) {
                 btLauncher.launch(
                     Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
                 )
