@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.atick.bluetooth.data.BtDataSource
-import dev.atick.bluetooth.data.BtDataSourceImpl
+import dev.atick.bluetooth.data.BtDataSourceBleImpl
 import javax.inject.Singleton
 
 @Module
@@ -15,6 +15,6 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindBtDataSource(
-        btDataSourceImpl: BtDataSourceImpl
+        btDataSourceImpl: BtDataSourceBleImpl
     ): BtDataSource
 }
