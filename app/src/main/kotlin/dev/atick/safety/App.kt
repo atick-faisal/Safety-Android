@@ -20,16 +20,32 @@ class App : Application() {
         Logger.addLogAdapter(logAdapter)
         Logger.i("SKYNET INITIATED!")
         createPersistentNotificationChannel()
+        createAlertNotificationChannel()
     }
 
     private fun createPersistentNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
                 SafetyService.PERSISTENT_NOTIFICATION_CHANNEL_ID,
-                "Safety Notification",
+                getString(R.string.safety_notification),
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "Continuously monitor Safety devices"
+                description = getString(R.string.persistent_notification_description)
+            }
+            val notificationManager = getSystemService(NOTIFICATION_SERVICE)
+                as NotificationManager
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+    }
+
+    private fun createAlertNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                SafetyService.ALERT_NOTIFICATION_CHANNEL_ID,
+                getString(R.string.safety_alert),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = getString(R.string.alert_notification_description)
             }
             val notificationManager = getSystemService(NOTIFICATION_SERVICE)
                 as NotificationManager
