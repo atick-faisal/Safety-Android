@@ -38,6 +38,12 @@ fun Context.showNotification(
     }
 }
 
+fun Context.cancelNotification(notificationId: Int) {
+    with(NotificationManagerCompat.from(this)) {
+        cancel(notificationId)
+    }
+}
+
 // ... https://medium.com/codex/how-to-implement-the-activity-result-api-takepicture-contract-with-uri-return-type-7c93881f5b0f
 fun Context.getTmpFileUri(appId: String): Uri {
     val tmpFile = File.createTempFile("tmp_image_file", ".png", cacheDir).apply {
