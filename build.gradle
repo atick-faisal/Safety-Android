@@ -10,12 +10,12 @@ buildscript {
         version_code = 9
 
         // ... Project
-        agp_version = "8.0.0"
-        kotlin_version = "1.8.20"
+        agp_version = "8.0.1"
+        kotlin_version = "1.8.21"
 
         // ... Core-android
-        core_ktx_version = "1.10.0"
-        coroutines_version = "1.6.4"
+        core_ktx_version = "1.10.1"
+        coroutines_version = "1.7.1"
         lifecycle_version = "2.6.1"
         logger_version = "2.2.0"
 
@@ -24,8 +24,8 @@ buildscript {
         fragment_version = "1.5.7"
         activity_version = "1.7.1"
         appcompat_version = "1.6.1"
-        compose_version = "2023.04.01"
-        compose_compiler_version = "1.4.6"
+        compose_version = "2023.05.01"
+        compose_compiler_version = "1.4.7"
         lottie_version = "6.0.0"
 
         // ... Network
@@ -37,18 +37,18 @@ buildscript {
 
         // ... Preferences-DataStore
         preferences_version = "1.0.0"
-        serializer_version = "1.5.0"
+        serializer_version = "1.5.1"
 
         // ... Location
         play_services_version = "21.0.1"
 
         // ... Crashlytics
         google_services_version = "4.3.15"
-        firebase_bom_version = "31.5.0"
+        firebase_bom_version = "32.0.0"
         crashlytics_version = "2.9.5"
 
         // ... Dagger-Hilt
-        hilt_version = "2.46"
+        hilt_version = "2.46.1"
 
         // ... SDK Config
         min_sdk_version = 24
