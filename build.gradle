@@ -11,7 +11,7 @@ buildscript {
 
         // ... Project
         agp_version = "8.0.2"
-        kotlin_version = "1.8.22"
+        kotlin_version = "1.8.21"
 
         // ... Core-android
         core_ktx_version = "1.10.1"
