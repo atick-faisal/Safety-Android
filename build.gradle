@@ -26,7 +26,7 @@ buildscript {
         appcompat_version = "1.6.1"
         compose_version = "2023.06.00"
         compose_compiler_version = "1.4.7"
-        lottie_version = "6.0.0"
+        lottie_version = "6.0.1"
 
         // ... Network
         retrofit_version = "2.9.0"
