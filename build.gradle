@@ -10,22 +10,22 @@ buildscript {
         version_code = 9
 
         // ... Project
-        agp_version = "8.0.2"
+        agp_version = "8.1.0"
         kotlin_version = "1.9.0"
 
         // ... Core-android
         core_ktx_version = "1.10.1"
-        coroutines_version = "1.7.2"
+        coroutines_version = "1.7.3"
         lifecycle_version = "2.6.1"
         logger_version = "2.2.0"
 
         // ... Core-UI
         nav_version = "2.6.0"
-        fragment_version = "1.6.0"
+        fragment_version = "1.6.1"
         activity_version = "1.7.2"
         appcompat_version = "1.6.1"
         compose_version = "2023.06.01"
-        compose_compiler_version = "1.5.0"
+        compose_compiler_version = "1.5.1"
         lottie_version = "6.1.0"
 
         // ... Network
