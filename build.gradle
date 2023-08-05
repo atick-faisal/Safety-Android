@@ -44,8 +44,8 @@ buildscript {
 
         // ... Crashlytics
         google_services_version = "4.3.15"
-        firebase_bom_version = "32.2.0"
-        crashlytics_version = "2.9.7"
+        firebase_bom_version = "32.2.2"
+        crashlytics_version = "2.9.8"
 
         // ... Dagger-Hilt
         hilt_version = "2.47"
