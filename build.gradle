@@ -52,8 +52,8 @@ buildscript {
 
         // ... SDK Config
         min_sdk_version = 24
-        compile_sdk_version = 33
-        target_sdk_version = 33
+        compile_sdk_version = 34
+        target_sdk_version = 34
     }
 }
 
