@@ -10,7 +10,7 @@ buildscript {
         version_code = 9
 
         // ... Project
-        agp_version = "8.1.0"
+        agp_version = "8.1.1"
         kotlin_version = "1.9.0"
 
         // ... Core-android
@@ -37,7 +37,7 @@ buildscript {
 
         // ... Preferences-DataStore
         preferences_version = "1.0.0"
-        serializer_version = "1.5.1"
+        serializer_version = "1.6.0"
 
         // ... Location
         play_services_version = "21.0.1"
