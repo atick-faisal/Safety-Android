@@ -20,11 +20,11 @@ buildscript {
         logger_version = "2.2.0"
 
         // ... Core-UI
-        nav_version = "2.7.3"
+        nav_version = "2.7.4"
         fragment_version = "1.6.1"
-        activity_version = "1.7.2"
+        activity_version = "1.8.0"
         appcompat_version = "1.6.1"
-        compose_version = "2023.09.02"
+        compose_version = "2023.10.00"
         compose_compiler_version = "1.5.3"
         lottie_version = "6.1.0"
 
