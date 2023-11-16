@@ -22,7 +22,7 @@ buildscript {
         // ... Core-UI
         nav_version = "2.7.5"
         fragment_version = "1.6.2"
-        activity_version = "1.8.0"
+        activity_version = "1.8.1"
         appcompat_version = "1.6.1"
         compose_version = "2023.10.01"
         compose_compiler_version = "1.5.4"
@@ -37,7 +37,7 @@ buildscript {
 
         // ... Preferences-DataStore
         preferences_version = "1.0.0"
-        serializer_version = "1.6.0"
+        serializer_version = "1.6.1"
 
         // ... Location
         play_services_version = "21.0.1"
