@@ -40,7 +40,7 @@ buildscript {
         serializer_version = "1.6.2"
 
         // ... Location
-        play_services_version = "21.0.1"
+        play_services_version = "21.1.0"
 
         // ... Crashlytics
         google_services_version = "4.4.0"
