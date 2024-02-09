@@ -43,8 +43,8 @@ buildscript {
         play_services_version = "21.1.0"
 
         // ... Crashlytics
-        google_services_version = "4.4.0"
-        firebase_bom_version = "32.7.1"
+        google_services_version = "4.4.1"
+        firebase_bom_version = "32.7.2"
         crashlytics_version = "2.9.9"
 
         // ... Dagger-Hilt
