@@ -37,7 +37,7 @@ buildscript {
 
         // ... Preferences-DataStore
         preferences_version = "1.0.0"
-        serializer_version = "1.6.2"
+        serializer_version = "1.6.3"
 
         // ... Location
         play_services_version = "21.1.0"
