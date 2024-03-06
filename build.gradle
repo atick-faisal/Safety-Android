@@ -26,7 +26,7 @@ buildscript {
         appcompat_version = "1.6.1"
         compose_version = "2024.02.01"
         compose_compiler_version = "1.5.10"
-        lottie_version = "6.3.0"
+        lottie_version = "6.4.0"
 
         // ... Network
         retrofit_version = "2.9.0"
@@ -40,7 +40,7 @@ buildscript {
         serializer_version = "1.6.3"
 
         // ... Location
-        play_services_version = "21.1.0"
+        play_services_version = "21.2.0"
 
         // ... Crashlytics
         google_services_version = "4.4.1"
