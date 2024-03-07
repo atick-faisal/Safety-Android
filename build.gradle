@@ -24,7 +24,7 @@ buildscript {
         fragment_version = "1.6.2"
         activity_version = "1.8.2"
         appcompat_version = "1.6.1"
-        compose_version = "2024.02.01"
+        compose_version = "2024.02.02"
         compose_compiler_version = "1.5.10"
         lottie_version = "6.4.0"
 
