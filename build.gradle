@@ -10,7 +10,7 @@ buildscript {
         version_code = 9
 
         // ... Project
-        agp_version = "8.3.1"
+        agp_version = "8.3.2"
         kotlin_version = "1.9.23"
 
         // ... Core-android
@@ -24,7 +24,7 @@ buildscript {
         fragment_version = "1.6.2"
         activity_version = "1.8.2"
         appcompat_version = "1.6.1"
-        compose_version = "2024.03.00"
+        compose_version = "2024.04.00"
         compose_compiler_version = "1.5.11"
         lottie_version = "6.4.0"
 
@@ -44,7 +44,7 @@ buildscript {
 
         // ... Crashlytics
         google_services_version = "4.4.1"
-        firebase_bom_version = "32.8.0"
+        firebase_bom_version = "32.8.1"
         crashlytics_version = "2.9.9"
 
         // ... Dagger-Hilt
