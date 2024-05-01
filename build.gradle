@@ -10,22 +10,22 @@ buildscript {
         version_code = 9
 
         // ... Project
-        agp_version = "8.3.2"
+        agp_version = "8.4.0"
         kotlin_version = "1.9.23"
 
         // ... Core-android
-        core_ktx_version = "1.13.0"
+        core_ktx_version = "1.13.1"
         coroutines_version = "1.8.0"
         lifecycle_version = "2.7.0"
         logger_version = "2.2.0"
 
         // ... Core-UI
         nav_version = "2.7.7"
-        fragment_version = "1.6.2"
+        fragment_version = "1.7.0"
         activity_version = "1.9.0"
         appcompat_version = "1.6.1"
-        compose_version = "2024.04.01"
-        compose_compiler_version = "1.5.12"
+        compose_version = "2024.05.00"
+        compose_compiler_version = "1.5.13"
         lottie_version = "6.4.0"
 
         // ... Network
@@ -36,7 +36,7 @@ buildscript {
         room_version = "2.6.1"
 
         // ... Preferences-DataStore
-        preferences_version = "1.1.0"
+        preferences_version = "1.1.1"
         serializer_version = "1.6.3"
 
         // ... Location
