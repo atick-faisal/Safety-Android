@@ -10,7 +10,7 @@ buildscript {
         version_code = 9
 
         // ... Project
-        agp_version = "8.4.0"
+        agp_version = "8.4.1"
         kotlin_version = "1.9.24"
 
         // ... Core-android
