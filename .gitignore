@@ -34,3 +34,6 @@ google-services.json
 
 # Output Metadata
 output-metadata.json
+
+# kotlin 2.0
+.kotlin

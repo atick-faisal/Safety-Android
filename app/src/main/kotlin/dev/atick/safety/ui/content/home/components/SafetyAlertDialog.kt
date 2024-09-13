@@ -64,7 +64,7 @@ fun SafetyAlertDialog(
                         }
                     }
                 }
-                item { Divider() }
+                item { HorizontalDivider() }
                 item { Text(text = stringResource(R.string.select_contacts), fontSize = 18.sp) }
                 if (contacts.isEmpty())
                     item { Text(text = stringResource(R.string.no_contact_found)) }

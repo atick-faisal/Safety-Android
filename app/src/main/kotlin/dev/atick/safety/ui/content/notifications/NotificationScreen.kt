@@ -3,7 +3,7 @@ package dev.atick.safety.ui.content.notifications
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -33,7 +33,7 @@ fun NotificationScreen(
         items(unreadFallIncidents) { fallIncident ->
             NotificationCard(fallIncident = fallIncident, onClick = onNotificationClick)
         }
-        item { Divider() }
+        item { HorizontalDivider() }
         item { Text(text = stringResource(R.string.read), fontSize = 18.sp) }
         if (readFallIncidents.isEmpty()) {
             item { Text(text = stringResource(id = R.string.nothing_to_show)) }
