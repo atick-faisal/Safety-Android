@@ -6,7 +6,8 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
+    // id("kotlin-kapt")
 }
 
 android {
@@ -114,9 +115,9 @@ dependencies {
 
     // ... Dagger-Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
-    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    ksp("com.google.dagger:hilt-android-compiler:$hilt_version")
 }
 
-kapt {
-    correctErrorTypes = true
-}
+//kapt {
+//    correctErrorTypes = true
+//}
