@@ -11,7 +11,7 @@ buildscript {
 
         // ... Project
         agp_version = "8.7.0"
-        kotlin_version = "2.0.20"
+        kotlin_version = "2.0.21"
 
         // ... Core-android
         ksp_version = "2.0.20-1.0.25"
@@ -21,11 +21,11 @@ buildscript {
         logger_version = "2.2.0"
 
         // ... Core-UI
-        nav_version = "2.8.1"
-        fragment_version = "1.8.3"
+        nav_version = "2.8.2"
+        fragment_version = "1.8.4"
         activity_version = "1.9.2"
         appcompat_version = "1.7.0"
-        compose_version = "2024.09.02"
+        compose_version = "2024.09.03"
         compose_compiler_version = "1.5.15"
         lottie_version = "6.5.2"
 
