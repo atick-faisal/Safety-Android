@@ -10,7 +10,7 @@ buildscript {
         version_code = 9
 
         // ... Project
-        agp_version = "8.8.2"
+        agp_version = "8.9.0"
         kotlin_version = "2.1.10"
 
         // ... Core-android
@@ -27,7 +27,7 @@ buildscript {
         appcompat_version = "1.7.0"
         compose_version = "2025.02.00"
         compose_compiler_version = "1.5.15"
-        lottie_version = "6.6.2"
+        lottie_version = "6.6.3"
 
         // ... Network
         retrofit_version = "2.11.0"
