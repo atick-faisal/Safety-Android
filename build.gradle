@@ -25,7 +25,7 @@ buildscript {
         fragment_version = "1.8.6"
         activity_version = "1.10.1"
         appcompat_version = "1.7.0"
-        compose_version = "2025.04.00"
+        compose_version = "2025.04.01"
         compose_compiler_version = "1.5.15"
         lottie_version = "6.6.6"
 
@@ -34,10 +34,10 @@ buildscript {
         okhttp_version = "4.12.0"
 
         // ... Storage-Room
-        room_version = "2.7.0"
+        room_version = "2.7.1"
 
         // ... Preferences-DataStore
-        preferences_version = "1.1.4"
+        preferences_version = "1.1.5"
         serializer_version = "1.8.1"
 
         // ... Location
@@ -45,7 +45,7 @@ buildscript {
 
         // ... Crashlytics
         google_services_version = "4.4.2"
-        firebase_bom_version = "33.12.0"
+        firebase_bom_version = "33.13.0"
         crashlytics_version = "3.0.3"
 
         // ... Dagger-Hilt
