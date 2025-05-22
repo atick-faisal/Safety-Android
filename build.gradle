@@ -22,22 +22,22 @@ buildscript {
 
         // ... Core-UI
         nav_version = "2.9.0"
-        fragment_version = "1.8.6"
+        fragment_version = "1.8.7"
         activity_version = "1.10.1"
         appcompat_version = "1.7.0"
-        compose_version = "2025.05.00"
+        compose_version = "2025.05.01"
         compose_compiler_version = "1.5.15"
         lottie_version = "6.6.6"
 
         // ... Network
-        retrofit_version = "2.11.0"
+        retrofit_version = "3.0.0"
         okhttp_version = "4.12.0"
 
         // ... Storage-Room
         room_version = "2.7.1"
 
         // ... Preferences-DataStore
-        preferences_version = "1.1.6"
+        preferences_version = "1.1.7"
         serializer_version = "1.8.1"
 
         // ... Location
@@ -45,7 +45,7 @@ buildscript {
 
         // ... Crashlytics
         google_services_version = "4.4.2"
-        firebase_bom_version = "33.13.0"
+        firebase_bom_version = "33.14.0"
         crashlytics_version = "3.0.3"
 
         // ... Dagger-Hilt
