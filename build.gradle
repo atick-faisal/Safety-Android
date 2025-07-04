@@ -21,7 +21,7 @@ buildscript {
         logger_version = "2.2.0"
 
         // ... Core-UI
-        nav_version = "2.9.0"
+        nav_version = "2.9.1"
         fragment_version = "1.8.8"
         activity_version = "1.10.1"
         appcompat_version = "1.7.1"
@@ -31,14 +31,14 @@ buildscript {
 
         // ... Network
         retrofit_version = "3.0.0"
-        okhttp_version = "4.12.0"
+        okhttp_version = "5.0.0"
 
         // ... Storage-Room
         room_version = "2.7.2"
 
         // ... Preferences-DataStore
         preferences_version = "1.1.7"
-        serializer_version = "1.8.1"
+        serializer_version = "1.9.0"
 
         // ... Location
         play_services_version = "21.3.0"
