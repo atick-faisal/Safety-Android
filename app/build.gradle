@@ -80,7 +80,8 @@ android {
                 // ... Enable experimental coroutines APIs, including Flow
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.FlowPreview",
-                "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
+                "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+                "-Xannotation-default-target=param-property"
         ]
     }
     buildFeatures {
@@ -110,8 +111,8 @@ dependencies {
     // ... Crashlytics
     // ... (https://firebase.google.com/docs/crashlytics/get-started?platform=android)
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
 
     // ... Dagger-Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
