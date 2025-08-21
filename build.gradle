@@ -49,7 +49,7 @@ buildscript {
         crashlytics_version = "3.0.6"
 
         // ... Dagger-Hilt
-        hilt_version = "2.57"
+        hilt_version = "2.57.1"
 
         // ... SDK Config
         min_sdk_version = 24
