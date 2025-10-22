@@ -14,7 +14,7 @@ buildscript {
         kotlin_version = "2.2.20"
 
         // ... Core-android
-        ksp_version = "2.2.20-2.0.4"
+        ksp_version = "2.3.0"
         core_ktx_version = "1.17.0"
         coroutines_version = "1.10.2"
         lifecycle_version = "2.9.4"
