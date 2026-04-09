@@ -1,18 +1,21 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    compileSdk rootProject.ext.compile_sdk_version
+    compileSdk = libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdk rootProject.ext.min_sdk_version
-        targetSdk rootProject.ext.target_sdk_version
+        minSdk = libs.versions.minSdk.get().toInteger()
+        targetSdk = libs.versions.targetSdk.get().toInteger()
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -26,12 +29,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-    buildFeatures {
-        compose true
-    }
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -40,68 +37,34 @@ android {
     namespace("dev.atick.core.ui")
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
+}
+
 dependencies {
-    // ... Core-Android
     api(project(path: ":core:android"))
 
-    // ... Fragment
-    // ... (https://developer.android.com/jetpack/androidx/releases/fragment)
-    api("androidx.fragment:fragment-ktx:$fragment_version")
+    api(libs.androidx.appcompat)
+    api(libs.androidx.activity.compose)
+    api(libs.androidx.navigation.fragment)
+    api(libs.androidx.navigation.ui)
+    api(libs.androidx.lifecycle.viewmodel.ktx)
+    api(libs.androidx.lifecycle.viewmodel.compose)
 
-    // ... Activity
-    // ... (https://developer.android.com/jetpack/androidx/releases/activity)
-    api("androidx.activity:activity-ktx:$activity_version")
+    api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.compose.ui)
+    api(libs.androidx.compose.foundation)
+    api(libs.androidx.compose.material3)
+    api(libs.androidx.compose.material.icons.core)
+    api(libs.androidx.compose.material.icons.extended)
+    api(libs.androidx.compose.runtime.livedata)
+    api(libs.androidx.compose.ui.tooling.preview)
+    debugApi(libs.androidx.compose.ui.tooling)
 
-    // ... Activity Compose
-    // ... (https://developer.android.com/jetpack/compose/setup)
-    api("androidx.activity:activity-compose:$activity_version")
+    api(libs.lottie.compose)
 
-    // ... AppCompat
-    // ... (https://developer.android.com/jetpack/androidx/releases/appcompat)
-    api("androidx.appcompat:appcompat:$appcompat_version")
-
-    // ... Navigation
-    // ... (https://developer.android.com/jetpack/androidx/releases/navigation)
-    api("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    api("androidx.navigation:navigation-ui-ktx:$nav_version")
-
-    // ... Lifecycle ViewModel
-    // ... (https://developer.android.com/jetpack/androidx/releases/lifecycle)
-    api("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-
-    // ... Jetpack Compose
-    // ... (https://developer.android.com/jetpack/compose/setup)
-    api(platform("androidx.compose:compose-bom:$compose_version"))
-    api("androidx.compose.ui:ui")
-    api("androidx.compose.foundation:foundation")
-
-    // ... Material Design 3
-    // ... (https://developer.android.com/jetpack/compose/setup)
-    api("androidx.compose.material3:material3")
-    api("androidx.compose.material3:material3-window-size-class")
-
-    // ... Material Icons
-    // ... (https://developer.android.com/jetpack/compose/setup)
-    api("androidx.compose.material:material-icons-core")
-    api("androidx.compose.material:material-icons-extended")
-
-    // ... LiveData Compose
-    // ... (https://developer.android.com/jetpack/compose/setup)
-    api("androidx.compose.runtime:runtime-livedata")
-
-    // ... ViewModel Compose
-    // ... (https://developer.android.com/jetpack/androidx/releases/lifecycle)
-    api("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
-
-    // ... Compose Tooling
-    // ... (https://developer.android.com/jetpack/compose/setup)
-    api("androidx.compose.ui:ui-tooling-preview")
-    debugApi("androidx.compose.ui:ui-tooling")
-
-    // ... Lottie Animation
-    // ... (https://github.com/airbnb/lottie/blob/master/android-compose.md)
-    api("com.airbnb.android:lottie-compose:$lottie_version")
-
-    // ... Dagger-Hilt
-    implementation("com.google.dagger:hilt-android:$hilt_version")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 }
