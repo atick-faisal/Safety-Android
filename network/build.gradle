@@ -1,20 +1,20 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
-    id("com.google.devtools.ksp")
-    // id("kotlin-kapt")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
-    compileSdk rootProject.ext.compile_sdk_version
+    compileSdk = libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdk rootProject.ext.min_sdk_version
-        targetSdk rootProject.ext.target_sdk_version
+        minSdk = libs.versions.minSdk.get().toInteger()
+        targetSdk = libs.versions.targetSdk.get().toInteger()
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -28,9 +28,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -39,29 +36,22 @@ android {
     namespace("dev.atick.network")
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
+}
+
 dependencies {
     implementation(project(":core:android"))
 
-    // ... OkHttp
-    // ... (https://square.github.io/okhttp/)
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:$okhttp_version"))
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
 
-    // ... Retrofit2
-    // ... (https://github.com/square/retrofit/tags)
-    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
-    // ... Retrofit Gson Converter
-    // ... (https://stackoverflow.com/questions/32902157/retrofit-convertor-factory-can-not-access-gsonconverterfactory)
-    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
-
-    // ... Dagger Hilt
-    // ... (https://developer.android.com/training/dependency-injection/hilt-android)
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    ksp("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 }
-
-//kapt {
-//    correctErrorTypes = true
-//}

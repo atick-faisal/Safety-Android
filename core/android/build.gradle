@@ -1,17 +1,18 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
 }
 
 android {
-    compileSdk rootProject.ext.compile_sdk_version
+    compileSdk = libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
-        minSdk rootProject.ext.min_sdk_version
-        targetSdk rootProject.ext.target_sdk_version
+        minSdk = libs.versions.minSdk.get().toInteger()
+        targetSdk = libs.versions.targetSdk.get().toInteger()
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
@@ -25,9 +26,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -36,28 +34,17 @@ android {
     namespace("dev.atick.core.android")
 }
 
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
+    }
+}
+
 dependencies {
-    // ... Core-Ktx
-    // ... (https://developer.android.com/jetpack/androidx/releases/core)
-    api("androidx.core:core-ktx:$core_ktx_version")
-
-    // ... Kotlin Coroutines
-    // ... (https://developer.android.com/kotlin/coroutines)
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version")
-
-    // ... Lifecycle LiveData
-    // ... (https://developer.android.com/jetpack/androidx/releases/lifecycle)
-    api("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
-
-    // ... Lifecycle Runtime
-    // ... (https://developer.android.com/jetpack/androidx/releases/lifecycle)
-    api("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
-
-    // ... Lifecycle Annotation Processor for Java 8
-    // ... (https://developer.android.com/jetpack/androidx/releases/lifecycle)
-    api("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
-
-    // ... Logger
-    // ... (https://github.com/orhanobut/logger)
-    api("com.orhanobut:logger:2.2.0")
+    api(libs.androidx.core.ktx)
+    api(libs.kotlinx.coroutines.android)
+    api(libs.androidx.lifecycle.livedata.ktx)
+    api(libs.androidx.lifecycle.runtime.ktx)
+    api(libs.androidx.lifecycle.common.java8)
+    api(libs.logger)
 }
