@@ -22,7 +22,7 @@ play-services-location = "21.3.0"
 lottie = "6.7.1"
 coroutines = "1.11.0"
 logger = "2.2.0"
-compileSdk = "36"
+compileSdk = "37"
 minSdk = "24"
 targetSdk = "36"
 
