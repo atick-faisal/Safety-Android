@@ -1,9 +1,9 @@
 [versions]
 agp = "9.3.1"
 kotlin = "2.4.10"
-ksp = "2.3.10"
+ksp = "2.3.11"
 hilt = "2.60.1"
-firebase-bom = "34.16.0"
+firebase-bom = "34.17.0"
 google-services = "4.5.0"
 crashlytics = "3.0.7"
 navigation = "2.9.8"
